@@ -116,6 +116,13 @@ class Photocount(object):
         # energy per photon [J]
         ephot = self.hplanck * self.clight / self.ll
 
+        # nphot = Ilambda / ephot * A              * T * (delta omega)**2               * (delta lambda)
+        #       = Ilambda / ephot * f0 * pi * R**2 * T * 1.22**2 * lambda**2 / (4 R**2) * (delta lambda)
+        #       = Ilambda / ephot * f0 * pi        * T * 1.22**2 * lambda**2 / 4        * (delta lambda)
+
+        # f0 is the fraction of the aperture that is unobscured. I
+        # assume 1.0 here
+
         # number of photons per second per m per diffraction limited
         # spatial resolution element of the light entering the
         # telescope

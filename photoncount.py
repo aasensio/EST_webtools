@@ -109,7 +109,7 @@ class Photocount(object):
         # equidistant.  the spacing changes slowly over the entire
         # wavelength range so this is approx OK.
         iw = int( len(self.ll) / 2)
-        dl2 = self.ll[iw+1] - self.ll[iw]
+        #dl2 = self.ll[iw+1] - self.ll[iw] apparently not used
         ff = self.get_filter(self.ll, self.ll[iw] / self.R)
         self.Ilambdac = fftconvolve(self.Ilambda, ff, mode = 'same')
 

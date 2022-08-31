@@ -35,7 +35,9 @@ class Photocount(object):
         self.lmax = 855.0
         self.polarimetry = 0
         self.R = 8e4
+        # Add Strehl ratio
         self.T = 0.1
+        self.strehl  1.0
         self.SN = 1e3
         self.v = 7.0
         self.binning = 1.0
@@ -139,9 +141,8 @@ class Photocount(object):
  
         nfluxideal = np.copy(nflux) # ideal telescope
         nflux *= self.T # for given total transmission
-
         # time to reach desired S/N, computed from: S/N = sqrt(nflux * t)
-        self.t = self.SN**2 / nflux
+        self.t = self.strehl*self.SN**2 / nflux
         self.tideal = self.SN**2 / nfluxideal
 
         # display spatial resolution

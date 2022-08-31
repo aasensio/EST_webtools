@@ -202,7 +202,7 @@ class Photocount(object):
         self.SN = d['SN']
         self.v = d['v']
         self.binning = d['binning']
-        self.strehl = ['strehl']
+        self.strehl = d['strehl']
 
 if (__name__ == '__main__'):
     out = Photocount()

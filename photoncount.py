@@ -35,9 +35,10 @@ class Photocount(object):
         self.lmax = 855.0
         self.polarimetry = 0
         self.R = 8e4
-        # Add Strehl ratio
+
         self.T = 0.1
-        self.strehl  1.0
+        # Add Strehl ratio
+        self.strehl =  1.0
         self.SN = 1e3
         self.v = 7.0
         self.binning = 1.0

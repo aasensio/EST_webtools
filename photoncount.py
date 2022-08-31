@@ -142,8 +142,10 @@ class Photocount(object):
  
         nfluxideal = np.copy(nflux) # ideal telescope
         nflux *= self.T # for given total transmission
+        # Multiplying by the Strehl ratio:
+        nflux *= self.strehl
         # time to reach desired S/N, computed from: S/N = sqrt(nflux * t)
-        self.t = self.strehl*self.SN**2 / nflux
+        self.t = self.SN**2 / nflux
         self.tideal = self.SN**2 / nfluxideal
 
         # display spatial resolution

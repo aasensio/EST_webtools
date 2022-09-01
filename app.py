@@ -24,6 +24,7 @@ properties_dict['T'] = 0.1
 properties_dict['SN'] = 1e3
 properties_dict['v'] = 7.0
 properties_dict['binning'] = 1.0
+properties_dict['strehl'] = 1.0
 
 def modify_doc(doc):
 

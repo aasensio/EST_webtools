@@ -5,3 +5,5 @@ Install the Following packages Windows:
 * matplotlib
 * jupyter
 * bqplot (Cannot be imported from pyplot)
+* flask
+* bohke

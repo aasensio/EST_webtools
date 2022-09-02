@@ -14,13 +14,13 @@ import photoncount
 ### CONSTANTS
 # units conversion
 NM_TO_M = 1e-9
+M_TO_NM = 1e9
+NM_TO_PM = 1e3
+KM_TO_M = 1e3
 # plot window sizes
 WINDOW_WIDTH = 12
 WINDOW_HEIGHT = 9
-M_TO_NM = 1e9
-NM_TO_PM = 1e3
-RAD_TO_ARCSEC = 206265.
-KM_TO_M = 1e3
+
 #
 
 D_INIT = 4.0

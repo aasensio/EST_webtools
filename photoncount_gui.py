@@ -42,6 +42,8 @@ class photongui:
         self.cwl_shift = 0.0
         self.bandpass = 0.5
 
+        self.cwl = None
+
         self.master = master
         self.master.title("Generic solar telescope integration time estimator              J. Leenaarts - Institute for Solar Physics")
 
@@ -59,25 +61,26 @@ class photongui:
         rowcounter = 0
 
         #window label
-        input_label = Tk.Label(self.master, text='Set model parameters here.',font=("Helvetica", 20))
-        input_label.grid(row=rowcounter, column=0, columnspan=4,sticky='n')
+        input_label = Tk.Label(self.master, text='Set model parameters here.', font=("Helvetica", 20))
+        input_label.grid(row=rowcounter, column=0, columnspan=4, sticky='n')
         rowcounter+=1
 
         # telescope diameter
         Tk.Label(self.master, text='Aperture diameter (m)',font=("Helvetica", 17)).grid(row=rowcounter, column=0, sticky='w')
         D_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.D, font=("Helvetica", 17))
-        D_entry.bind('<Return>',self.redraw_from_event)
+        D_entry.bind('<Return>', self.redraw_from_event)
         D_entry.grid(row=rowcounter, column=1, sticky='w')
         rowcounter+=1
 
         # target wavelengths combobox
         Tk.Label(self.master, text='Target Wavelength', font=("Helvetica", 18)).grid(
             row=rowcounter, column=0, sticky='w')
-        cwl = Tk.ttk.Combobox(self.master, values=[('Ca II K', 393.33), ('H I beta', 486.1), ('Mg I b', 517.30), ('Fe I', 525.0 ), ('Fe I V', 630.2 ),
+        self.cwl = Tk.ttk.Combobox(self.master, values=[('Ca II K', 393.33), ('H I beta', 486.1), ('Mg I b', 517.30), ('Fe I', 525.0 ), ('Fe I V', 630.2 ),
                                                    ('H I alpha', 656.3 ), ('K I', 769.9), ('Ca II', 854.2), ('He I',1083.0),
                                                    ('Fe I IR', 1564.8)])
-        cwl.current(7)
-        cwl.grid(row=rowcounter,column=1)
+        self.cwl.current(7)
+        self.cwl.bind('<<ComboboxSelected>>', self.redraw_from_event)
+        self.cwl.grid(row=rowcounter,column=1)
         bp = Tk.Entry(self.master, width=FWIDTH, textvariable=self.bandpass, font=("Helvetica", 17))
         bp.grid(row=rowcounter, column=2)
         rowcounter+=1
@@ -260,7 +263,7 @@ class photongui:
     ######################################################################
 
     def redraw(self):
-
+        print(self.cwl.get())
         # read the input parameters from buttons and fields
         D = self.D.get() # telescope diameter
         lmin = self.lmin.get() # wavelength range

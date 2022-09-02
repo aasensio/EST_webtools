@@ -248,11 +248,8 @@ class photongui:
     ######################################################################
 
     def set_specres(self, lmin, lmax):
-
-        a = lmin/self.R.get()/2.0*NM_TO_PM
-        self.spresmin.set("{:.4f}".format(a))
-        a = lmax/self.R.get()/2.0*NM_TO_PM
-        self.spresmax.set("{:.4f}".format(a))
+        self.spresmin.set("{:.4f}".format(self.ph.specres(lmin, self.R.get())))
+        self.spresmax.set("{:.4f}".format(self.ph.specres(lmax, self.R.get())))
 
     ######################################################################
 

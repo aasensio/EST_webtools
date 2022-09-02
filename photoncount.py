@@ -7,8 +7,6 @@ import matplotlib.pyplot as pl
 # units
 HPLANCK = 6.626e-34  # m**2 kg /s
 CLIGHT = 2.99792458e8  # m /s
-#EV = 1.602e-19  # J
-#mAA_to_m = 1e-13
 NM_TO_M = 1e-9
 M_TO_NM = 1e9
 NM_TO_PM = 1e3

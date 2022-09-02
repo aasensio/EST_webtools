@@ -3,6 +3,19 @@ from scipy.signal import fftconvolve
 import fts
 import matplotlib.pyplot as pl
 
+### CONSTANTS
+# units
+HPLANCK = 6.626e-34  # m**2 kg /s
+CLIGHT = 2.99792458e8  # m /s
+#EV = 1.602e-19  # J
+#mAA_to_m = 1e-13
+NM_TO_M = 1e-9
+M_TO_NM = 1e9
+NM_TO_PM = 1e3
+RAD_TO_ARCSEC = 206265.
+KM_TO_M = 1e3
+M_TO_ARCSEC = 1. / (7.25e5)
+
 
 class Photocount(object):
 
@@ -14,18 +27,6 @@ class Photocount(object):
         
         written by Jorrit Leenaarts
         """
-
-        # units
-        self.hplanck = 6.626e-34 # m**2 kg /s
-        self.clight = 2.99792458e8 #m /s
-        self.eV = 1.602e-19 # J
-        self.mAA_to_m = 1e-13
-        self.nm_to_m = 1e-9
-        self.m_to_nm = 1e9
-        self.nm_to_pm = 1e3
-        self.rad_to_arcsec = 206265.
-        self.km_to_m = 1e3
-        self.m_to_arcsec = 1./(7.25e5)
 
         self.atlas = fts.fts()
         self.al, self.at = self.get_atmostrans()
@@ -43,11 +44,11 @@ class Photocount(object):
         self.v = 7.0
         self.binning = 1.0
         
-        self.resmin = self.spatres(self.lmin * self.nm_to_m)
-        self.resmax = self.spatres(self.lmax * self.nm_to_m)
+        self.resmin = self.spatres(self.lmin * NM_TO_M)
+        self.resmax = self.spatres(self.lmax * NM_TO_M)
 
-        self.sresmin = self.specres(self.lmin * self.nm_to_m)
-        self.sresmax = self.specres(self.lmax * self.nm_to_m)
+        self.sresmin = self.specres(self.lmin * NM_TO_M)
+        self.sresmax = self.specres(self.lmax * NM_TO_M)
 
     def get_atmostrans(self, M = 2.0):
         """
@@ -76,11 +77,11 @@ class Photocount(object):
         return trans
 
     def spatres(self, l):
-        out = 1.22 * l / self.D * self.rad_to_arcsec / 2.
+        out = 1.22 * l / self.D * RAD_TO_ARCSEC / 2.
         return out
 
     def specres(self, l):
-        out = l / self.R / 2.0 * self.nm_to_pm
+        out = l / self.R / 2.0 * NM_TO_PM
         return out
 
     def compute(self):
@@ -97,8 +98,8 @@ class Photocount(object):
         lmax = self.lmax + 0.1
 
         # cut out selected  wavelength range
-        iw = np.where( (self.atlas.ll > lmin * self.nm_to_m) &
-                      (self.atlas.ll < lmax * self.nm_to_m))[0]
+        iw = np.where( (self.atlas.ll > lmin * NM_TO_M) &
+                      (self.atlas.ll < lmax * NM_TO_M))[0]
         self.Ilambda = self.atlas.ii[iw]
         self.ll = self.atlas.ll[iw]
 
@@ -117,7 +118,7 @@ class Photocount(object):
         self.Ilambdac = fftconvolve(self.Ilambda, ff, mode = 'same')
 
         # energy per photon [J]
-        ephot = self.hplanck * self.clight / self.ll
+        ephot = HPLANCK * CLIGHT / self.ll
 
         # nphot = Ilambda / ephot * A              * T * (delta omega)**2               * (delta lambda)
         #       = Ilambda / ephot * f0 * pi * R**2 * T * 1.22**2 * lambda**2 / (4 R**2) * (delta lambda)
@@ -157,15 +158,15 @@ class Photocount(object):
 
         # compute Alex Feller ideal dt,dx
         phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans * self.T * pfac # photons/ (s ster m)
-        phi = phi * self.nm_to_m / self.rad_to_arcsec**2 # photons/ (s arcsec**2 nm)
-        self.dt = self.SN**2 / phi / (dl/self.nm_to_m/2.0) / (self.v* self.km_to_m*self.m_to_arcsec)**2
+        phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
+        self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v* KM_TO_M*M_TO_ARCSEC**2
         self.dt = self.dt**(1./3.)
-        self.dx = (self.v* self.km_to_m*self.m_to_arcsec) * self.dt 
+        self.dx = (self.v * KM_TO_M*M_TO_ARCSEC) * self.dt
 
     def plot(self):
         f, ax = pl.subplots(ncols=2, nrows=2, figsize=(10,10))
 
-        xax = self.ll * self.m_to_nm
+        xax = self.ll * M_TO_NM
 
         ax[0,0].plot(xax, self.Ilambda, label = 'atlas')
         ax[0,0].plot(xax, self.Ilambdac, label = 'smeared to R')

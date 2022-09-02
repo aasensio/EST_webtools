@@ -5,22 +5,25 @@ if version_info[0] == 2:
     import Tkinter as Tk
 else:
     import tkinter as Tk
-    
-import numpy as np
+
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import fts
-
 import photoncount
 
 ######################################################################
 ### CONSTANTS
+# units
+NM_TO_M = 1e-9
 # plot window sizes
-window_width = 12
-window_height = 9
+WINDOW_WIDTH = 12
+WINDOW_HEIGHT = 9
+M_TO_NM = 1e9
+NM_TO_PM = 1e3
+RAD_TO_ARCSEC = 206265.
+KM_TO_M = 1e3
 
 # entry field width
-fwidth = 8
+FWIDTH = 8
 
 class photongui:
     #
@@ -29,18 +32,6 @@ class photongui:
     # resolution.
     #
     # written by Jorrit Leenaarts
-    #
-
-    # units
-    mAA_to_m = 1e-13
-    nm_to_m = 1e-9
-    m_to_nm = 1e9
-    nm_to_pm = 1e3
-    rad_to_arcsec = 206265.
-    km_to_m = 1e3
-    m_to_arcsec = 1./(7.25e5)
-
-
     def __init__(self, master):
         self.ph = photoncount.Photocount()
 
@@ -78,7 +69,7 @@ class photongui:
 
         # telescope diameter
         Tk.Label(self.master, text='Aperture diameter (m)',font=("Helvetica", 17)).grid(row=rowcounter, column=0, sticky='w')
-        D_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.D, font=("Helvetica", 17))
+        D_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.D, font=("Helvetica", 17))
         D_entry.bind('<Return>',self.redraw_from_event)
         D_entry.grid(row=rowcounter, column=1, sticky='w')
         rowcounter+=1
@@ -91,19 +82,19 @@ class photongui:
                                                    ('Fe I IR', 1564.8)])
         cwl.current(7)
         cwl.grid(row=rowcounter,column=1)
-        bp = Tk.Entry(self.master, width=fwidth, textvariable=self.bandpass, font=("Helvetica", 17))
+        bp = Tk.Entry(self.master, width=FWIDTH, textvariable=self.bandpass, font=("Helvetica", 17))
         bp.grid(row=rowcounter, column=2)
         rowcounter+=1
 
         # lmin,
         Tk.Label(self.master, text='lambda_min/max (nm) [329-1250]',font=("Helvetica", 18)).grid(row=rowcounter, column=0,sticky='w')
-        lmin_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.lmin, font=("Helvetica", 17))
+        lmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmin, font=("Helvetica", 17))
         lmin_entry.bind('<Return>',self.redraw_from_event)
         lmin_entry.grid(row=rowcounter, column=1)
 
         #lmax
         Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=rowcounter, column=2)
-        lmax_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.lmax, font=("Helvetica", 17))
+        lmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmax, font=("Helvetica", 17))
         lmax_entry.bind('<Return>', self.redraw_from_event)
         lmax_entry.grid(row=rowcounter, column=3)
         rowcounter+=1
@@ -131,47 +122,47 @@ class photongui:
 
         # spectral resolution
         Tk.Label(self.master, text='spectral resolution R',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
-        R_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.R, font=("Helvetica", 17))
+        R_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.R, font=("Helvetica", 17))
         R_entry.bind('<Return>',self.redraw_from_event)
         R_entry.grid(row=rowcounter, column=1)
         rowcounter+=1
 
         # telescope transmission
         Tk.Label(self.master, text='total transmission [0,1]',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
-        T_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.T, font=("Helvetica", 17))
+        T_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.T, font=("Helvetica", 17))
         T_entry.bind('<Return>', self.redraw_from_event)
         T_entry.grid(row=rowcounter, column=1)
         rowcounter+=1
         
         # S/N
         Tk.Label(self.master, text='desired S/N',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
-        T_entry = Tk.Entry(self.master, width=fwidth, textvariable = self.SN, font=("Helvetica", 17))
+        T_entry = Tk.Entry(self.master, width=FWIDTH, textvariable = self.SN, font=("Helvetica", 17))
         T_entry.bind('<Return>', self.redraw_from_event)
         T_entry.grid(row=rowcounter, column=1)
         rowcounter+=1
 
         # evolution speed
-        Tk.Label(self.master, text='evolution speed (km/s)',font=("Helvetica", 17)).grid(row=rowcounter, column=0, sticky='w')
-        v_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.v, font=("Helvetica", 17))
+        Tk.Label(self.master, text='evolution speed (km/s)', font=("Helvetica", 17)).grid(row=rowcounter, column=0, sticky='w')
+        v_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.v, font=("Helvetica", 17))
         v_entry.bind('<Return>', self.redraw_from_event)
         v_entry.grid(row=rowcounter, column=1)
         rowcounter+=1
 
         # resulting spatial resolution
         Tk.Label(self.master, text='resulting spatial pixel size (arcsec)',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
-        resmin_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.resmin, font=("Helvetica", 17))
+        resmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.resmin, font=("Helvetica", 17))
         resmin_entry.grid(row=rowcounter, column=1)
         Tk.Label(self.master, text='-',font=("Helvetica", 17)).grid(row=rowcounter, column=2)
-        resmax_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.resmax, font=("Helvetica", 17))
+        resmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.resmax, font=("Helvetica", 17))
         resmax_entry.grid(row=rowcounter, column=3)
         rowcounter+=1
 
        # resulting spectral resolution
         Tk.Label(self.master, text='resulting spectral pixel size (pm)',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
-        spresmin_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.spresmin, font=("Helvetica", 17))
+        spresmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 17))
         spresmin_entry.grid(row=rowcounter, column=1)
         Tk.Label(self.master, text='-',font=("Helvetica", 17)).grid(row=rowcounter, column=2)
-        spresmax_entry = Tk.Entry(self.master, width=fwidth, textvariable=self.spresmax, font=("Helvetica", 17))
+        spresmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.spresmax, font=("Helvetica", 17))
         spresmax_entry.grid(row=rowcounter, column=3)
         rowcounter+=1
 
@@ -187,7 +178,7 @@ class photongui:
     def init_plot(self, rowspan):
 
         # create Figure for the plot 
-        self.fig = Figure(figsize=(window_width, window_height), dpi=100)
+        self.fig = Figure(figsize=(WINDOW_WIDTH, WINDOW_HEIGHT), dpi=100)
         self.axes=[]
 
         nrow = 2
@@ -255,23 +246,23 @@ class photongui:
     ######################################################################
 
     def spatres(self, l):
-        r = 1.22 * l / self.D.get() * self.rad_to_arcsec /2.
+        r = 1.22 * l / self.D.get() * RAD_TO_ARCSEC /2.
         return r
 
     ######################################################################
 
     def set_spatres(self, lmin, lmax):
 
-        self.resmin.set("{:.4f}".format(self.spatres(lmin*self.nm_to_m)))
-        self.resmax.set("{:.4f}".format(self.spatres(lmax*self.nm_to_m)))
+        self.resmin.set("{:.4f}".format(self.spatres(lmin*NM_TO_M)))
+        self.resmax.set("{:.4f}".format(self.spatres(lmax*NM_TO_M)))
 
     ######################################################################
 
     def set_specres(self, lmin, lmax):
 
-        a = lmin/self.R.get()/2.0*self.nm_to_pm
+        a = lmin/self.R.get()/2.0*NM_TO_PM
         self.spresmin.set("{:.4f}".format(a))
-        a = lmax/self.R.get()/2.0*self.nm_to_pm
+        a = lmax/self.R.get()/2.0*NM_TO_PM
         self.spresmax.set("{:.4f}".format(a))
 
     ######################################################################
@@ -292,7 +283,7 @@ class photongui:
         SN = self.SN.get() # signal to noise ration     
         telescopetrans = self.T.get() # telescope transmission
         binning = self.binning.get() # spatial binning
-        v = self.v.get() * self.km_to_m # m/s
+        v = self.v.get() * KM_TO_M # m/s
         # get polarimetry. should account for 4 polarization
         # states per wavelength in a balanced design with efficiency
         # 1/sqrt(3) = 0.577
@@ -328,7 +319,7 @@ class photongui:
 
     def plot(self):
 
-        xax = self.ph.ll * self.m_to_nm
+        xax = self.ph.ll * M_TO_NM
 
         for ax in self.axes:
             ax.clear()

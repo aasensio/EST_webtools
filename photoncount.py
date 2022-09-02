@@ -42,8 +42,8 @@ class Photocount(object):
         self.v = 7.0
         self.binning = 1.0
         
-        self.resmin = self.spatres(self.lmin * NM_TO_M)
-        self.resmax = self.spatres(self.lmax * NM_TO_M)
+        self.resmin = self.spatres(self.lmin * NM_TO_M, self.D)
+        self.resmax = self.spatres(self.lmax * NM_TO_M, self.D)
 
         self.sresmin = self.specres(self.lmin * NM_TO_M)
         self.sresmax = self.specres(self.lmax * NM_TO_M)
@@ -74,8 +74,8 @@ class Photocount(object):
         trans /= trans.sum()
         return trans
 
-    def spatres(self, l):
-        out = 1.22 * l / self.D * RAD_TO_ARCSEC / 2.
+    def spatres(self, l, D):
+        out = 1.22 * l / D * RAD_TO_ARCSEC / 2.
         return out
 
     def specres(self, l):
@@ -148,8 +148,8 @@ class Photocount(object):
         self.tideal = self.SN**2 / nfluxideal
 
         # display spatial resolution
-        self.resmin = self.spatres(self.binning * lmin)
-        self.resmax = self.spatres(self.binning * lmax)
+        self.resmin = self.spatres(self.binning * lmin, self.D)
+        self.resmax = self.spatres(self.binning * lmax, self.D)
 
         self.sresmin = self.specres(lmin)
         self.sresmax = self.specres(lmax)

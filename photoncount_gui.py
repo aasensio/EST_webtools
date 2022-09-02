@@ -25,9 +25,6 @@ class photongui:
     #
 
     # units
-    hplanck = 6.626e-34 # m**2 kg /s
-    clight=2.99792458e8 #m /s
-    eV = 1.602e-19 # J
     mAA_to_m = 1e-13
     nm_to_m = 1e-9
     m_to_nm = 1e9

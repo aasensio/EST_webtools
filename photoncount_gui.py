@@ -240,16 +240,10 @@ class photongui:
 
     ######################################################################
 
-    def spatres(self, l):
-        r = 1.22 * l / self.D.get() * RAD_TO_ARCSEC /2.
-        return r
-
-    ######################################################################
-
     def set_spatres(self, lmin, lmax):
 
-        self.resmin.set("{:.4f}".format(self.spatres(lmin*NM_TO_M)))
-        self.resmax.set("{:.4f}".format(self.spatres(lmax*NM_TO_M)))
+        self.resmin.set("{:.4f}".format(self.ph.spatres(lmin*NM_TO_M, self.D.get())))
+        self.resmax.set("{:.4f}".format(self.ph.spatres(lmax*NM_TO_M, self.D.get())))
 
     ######################################################################
 

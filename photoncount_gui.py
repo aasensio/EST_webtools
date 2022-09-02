@@ -12,7 +12,7 @@ import photoncount
 
 ######################################################################
 ### CONSTANTS
-# units
+# units conversion
 NM_TO_M = 1e-9
 # plot window sizes
 WINDOW_WIDTH = 12
@@ -21,6 +21,9 @@ M_TO_NM = 1e9
 NM_TO_PM = 1e3
 RAD_TO_ARCSEC = 206265.
 KM_TO_M = 1e3
+#
+
+D_INIT = 4.0
 
 # entry field width
 FWIDTH = 8
@@ -188,9 +191,8 @@ class photongui:
         
     def init_parameters(self):
 
-        D_init = 4.0
         self.D = Tk.DoubleVar()
-        self.D.set(D_init)
+        self.D.set(D_INIT)
 
         lmin_init=854.0
         self.lmin = Tk.DoubleVar()

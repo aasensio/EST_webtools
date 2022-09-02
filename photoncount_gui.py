@@ -38,14 +38,7 @@ class photongui:
         # wavelength parameters
         self.cwl_shift = 0.0
         self.bandpass = 0.5
-        # load data only once
 
-        # atmospheric transmission at La Palma
-        #self.al, self. at = self.get_atmostrans()
-
-        # solar intensity W/ (m2 ster m)
-        #self.atlas = fts.fts()
-               
         self.master = master
         self.master.title("Generic solar telescope integration time estimator              J. Leenaarts - Institute for Solar Physics")
 

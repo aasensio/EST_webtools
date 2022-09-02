@@ -159,7 +159,7 @@ class Photocount(object):
         # compute Alex Feller ideal dt,dx
         phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans * self.T * pfac # photons/ (s ster m)
         phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
-        self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v* KM_TO_M*M_TO_ARCSEC**2
+        self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v* KM_TO_M*M_TO_ARCSEC**2)
         self.dt = self.dt**(1./3.)
         self.dx = (self.v * KM_TO_M*M_TO_ARCSEC) * self.dt
 

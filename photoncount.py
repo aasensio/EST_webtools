@@ -45,8 +45,8 @@ class Photocount(object):
         self.resmin = self.spatres(self.lmin * NM_TO_M, self.D)
         self.resmax = self.spatres(self.lmax * NM_TO_M, self.D)
 
-        self.sresmin = self.specres(self.lmin * NM_TO_M)
-        self.sresmax = self.specres(self.lmax * NM_TO_M)
+        self.sresmin = self.specres(self.lmin * NM_TO_M, self.R)
+        self.sresmax = self.specres(self.lmax * NM_TO_M, self.R)
 
     def get_atmostrans(self, M = 2.0):
         """
@@ -78,8 +78,8 @@ class Photocount(object):
         out = 1.22 * l / D * RAD_TO_ARCSEC / 2.
         return out
 
-    def specres(self, l):
-        out = l / self.R / 2.0 * NM_TO_PM
+    def specres(self, l, R):
+        out = l / R / 2.0 * NM_TO_PM
         return out
 
     def compute(self):
@@ -151,8 +151,8 @@ class Photocount(object):
         self.resmin = self.spatres(self.binning * lmin, self.D)
         self.resmax = self.spatres(self.binning * lmax, self.D)
 
-        self.sresmin = self.specres(lmin)
-        self.sresmax = self.specres(lmax)
+        self.sresmin = self.specres(lmin, self.R)
+        self.sresmax = self.specres(lmax, self.R)
 
         # compute Alex Feller ideal dt,dx
         phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans * self.T * pfac # photons/ (s ster m)

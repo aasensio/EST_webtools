@@ -187,7 +187,7 @@ class photongui:
 
         # link figure to gui
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.master)
-        self.canvas.get_tk_widget().grid(row=0,column=4,rowspan=rowspan)
+        self.canvas.get_tk_widget().grid(row=0, column=4, rowspan=rowspan)
         self.canvas.draw()
 
     ######################################################################
@@ -315,37 +315,37 @@ class photongui:
 
     
         ax = self.axes[0]
-        ax.plot(xax, self.ph.Ilambda ,label = 'atlas')
-        ax.plot(xax, self.ph.Ilambdac, label = 'smeared to R')
+        ax.plot(xax, self.ph.Ilambda, label='atlas')
+        ax.plot(xax, self.ph.Ilambdac, label='smeared to R')
 
         ax.legend(loc='best')
         ax.get_xaxis().set_ticklabels([])
-        ax.set_xlim( self.ph.ran )
+        ax.set_xlim(self.ph.ran )
         ax.set_ylabel(r'$I_\lambda$ [W m$^{-2}$ m$^{-1}$ sr$^{-1}$]')
         ax.set_title('spectrum')
         ax.grid(True)
 
         ax = self.axes[1]
         ax.plot(xax, self.ph.dx)
-        ax.set_xlim( self.ph.ran )
+        ax.set_xlim(self.ph.ran )
         ax.get_xaxis().set_ticklabels([])
         ax.set_ylabel(r'$\Delta x$ [arcsec]')
         ax.set_title('optimal pixel size for given signal speed')
         ax.grid(True)
 
         ax=self.axes[2]
-        ax.plot(xax,self.ph.t, label='with given transmission')
-        ax.plot(xax,self.ph.tideal, label='perfect telescope')
+        ax.plot(xax, self.ph.t, label='with given transmission')
+        ax.plot(xax, self.ph.tideal, label='perfect telescope')
         ax.legend(loc='best')
         ax.set_xlabel(r'$\lambda$ (nm)')
-        ax.set_xlim( self.ph.ran )
+        ax.set_xlim(self.ph.ran)
         ax.set_ylabel(r' $\Delta t$ [s]')
         ax.set_title('integration time for given spatial and spectral pixel size')
         ax.grid(True)
 
         ax = self.axes[3]
-        ax.plot(xax, self.ph.dt )
-        ax.set_xlim( self.ph.ran )
+        ax.plot(xax, self.ph.dt)
+        ax.set_xlim(self.ph.ran)
         ax.set_ylabel(r'$\Delta t$ [s]')
         ax.set_title('optimal integration time for given signal speed')
         ax.set_xlabel(r'$\lambda$ (nm)')

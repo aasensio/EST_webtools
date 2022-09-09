@@ -85,6 +85,7 @@ class photongui:
         self.cwl.grid(row=self.rowcounter, column=1)
 
         self.bp.grid(row=self.rowcounter, column=2)
+        self.bp.bind('<Return>', self.redraw_from_event)
         self.rowcounter += 1
 
         # lmin,

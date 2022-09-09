@@ -28,7 +28,7 @@ D_INIT = 4.0
 # entry field width
 FWIDTH = 8
 
-class photongui:
+class photongui():
     #
     # Computes and displays the integration to reach a desired level
     # of S/N per diffraction limited spatial pixel and given spectral
@@ -78,13 +78,13 @@ class photongui:
         self.rowcounter += 1
 
         # target wavelengths combobox
-        Tk.Label(self.master, text='Target Wavelength', font=("Helvetica", 18)).grid(
+        Tk.Label(self.master, text='Target Wavelength', font=("Helvetica", 16)).grid(
             row=self.rowcounter, column=0, sticky='w')
-
         self.cwl.bind('<<ComboboxSelected>>', self.redraw_from_event)
-        self.cwl.grid(row=self.rowcounter, column=1)
-
-        self.bp.grid(row=self.rowcounter, column=2)
+        self.cwl.grid(row=self.rowcounter, column=1, sticky='w')
+        Tk.Label(self.master, text='Bandpass', font=("Helvetica", 16)).grid(
+            row=self.rowcounter, column=2, sticky='w')
+        self.bp.grid(row=self.rowcounter, column=3, sticky='w')
         self.bp.bind('<Return>', self.redraw_from_event)
         self.rowcounter += 1
 
@@ -118,7 +118,7 @@ class photongui:
         Tk.Label(self.master, text='spatial binning', font=("Helvetica", 17)).grid(
             row=self.rowcounter, column=0, sticky='w')
         j = 1
-        for i, option in zip((1., 3., 4.), ('1x1', '3x3',' 4x4')):
+        for i, option in zip((1., 3., 4.), ('1x1', '3x3', ' 4x4')):
             r = Tk.Radiobutton(self.master, text=option, variable=self.binning,
                             value=i, command=self.redraw, font=("Helvetica", 17))
             r.grid(row=self.rowcounter, column=j)
@@ -338,8 +338,10 @@ class photongui:
 
         self.canvas.draw()
 
-######################################################################
-        
-root = Tk.Tk()
-my_gui = photongui(root)
-root.mainloop()
+def create_main_window():
+    root = Tk.Tk()
+    photongui(root)
+    root.mainloop()
+
+if __name__ == "__main__":
+    create_main_window()

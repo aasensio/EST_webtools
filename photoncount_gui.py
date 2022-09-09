@@ -88,19 +88,20 @@ class photongui:
         self.bp.bind('<Return>', self.redraw_from_event)
         self.rowcounter += 1
 
-        # lmin,
-        Tk.Label(self.master, text='lambda_min/max (nm) [329-1250]',font=("Helvetica", 18)).grid(
-            row=self.rowcounter, column=0, sticky='w')
-        lmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmin, font=("Helvetica", 17))
-        lmin_entry.bind('<Return>', self.redraw_from_event)
-        lmin_entry.grid(row=self.rowcounter, column=1)
-
-        #lmax
-        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=self.rowcounter, column=2)
-        lmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmax, font=("Helvetica", 17))
-        lmax_entry.bind('<Return>', self.redraw_from_event)
-        lmax_entry.grid(row=self.rowcounter, column=3)
-        self.rowcounter += 1
+        # this part is not needed anymore TBC
+        # # lmin,
+        # Tk.Label(self.master, text='lambda_min/max (nm) [329-1250]',font=("Helvetica", 18)).grid(
+        #     row=self.rowcounter, column=0, sticky='w')
+        # lmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmin, font=("Helvetica", 17))
+        # lmin_entry.bind('<Return>', self.redraw_from_event)
+        # lmin_entry.grid(row=self.rowcounter, column=1)
+        #
+        # #lmax
+        # Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=self.rowcounter, column=2)
+        # lmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmax, font=("Helvetica", 17))
+        # lmax_entry.bind('<Return>', self.redraw_from_event)
+        # lmax_entry.grid(row=self.rowcounter, column=3)
+        # self.rowcounter += 1
 
         # polarimetry radio button
         Tk.Label(self.master, text='polarimetry',font=("Helvetica", 17)).grid(

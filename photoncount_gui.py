@@ -40,7 +40,6 @@ class photongui:
         # wavelength parameters
         self.cwl_shift = 0.0
 
-
         self.master = master
         self.master.title("Generic solar telescope integration time estimator              J. Leenaarts - Institute for Solar Physics")
 
@@ -56,132 +55,132 @@ class photongui:
 
         self.init_parameters()
 
-        rowcounter = self.init_buttons()
-        self.init_plot(rowcounter)
+        #init rowcounter
+        self.rowcounter = 0
+
+        self.init_buttons()
+        self.init_plot()
 
         self.redraw()
 
     def init_buttons(self):
-        #start adding buttons and text
-        rowcounter = 0
-
         #window label
         input_label = Tk.Label(self.master, text='Set model parameters here.', font=("Helvetica", 20))
-        input_label.grid(row=rowcounter, column=0, columnspan=4, sticky='n')
-        rowcounter+=1
+        input_label.grid(row=self.rowcounter, column=0, columnspan=4, sticky='n')
+        self.rowcounter += 1
 
         # telescope diameter
         Tk.Label(self.master, text='Aperture diameter (m)', font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         D_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.D, font=("Helvetica", 17))
         D_entry.bind('<Return>', self.redraw_from_event)
-        D_entry.grid(row=rowcounter, column=1, sticky='w')
-        rowcounter+=1
+        D_entry.grid(row=self.rowcounter, column=1, sticky='w')
+        self.rowcounter += 1
 
         # target wavelengths combobox
         Tk.Label(self.master, text='Target Wavelength', font=("Helvetica", 18)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
 
         self.cwl.current(11)
         self.cwl.bind('<<ComboboxSelected>>', self.redraw_from_event)
-        self.cwl.grid(row=rowcounter, column=1)
+        self.cwl.grid(row=self.rowcounter, column=1)
 
-        self.bp.grid(row=rowcounter, column=2)
-        rowcounter+=1
+        self.bp.grid(row=self.rowcounter, column=2)
+        self.rowcounter += 1
 
         # lmin,
         Tk.Label(self.master, text='lambda_min/max (nm) [329-1250]',font=("Helvetica", 18)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         lmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmin, font=("Helvetica", 17))
         lmin_entry.bind('<Return>', self.redraw_from_event)
-        lmin_entry.grid(row=rowcounter, column=1)
+        lmin_entry.grid(row=self.rowcounter, column=1)
 
         #lmax
-        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=rowcounter, column=2)
+        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=self.rowcounter, column=2)
         lmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.lmax, font=("Helvetica", 17))
         lmax_entry.bind('<Return>', self.redraw_from_event)
-        lmax_entry.grid(row=rowcounter, column=3)
-        rowcounter+=1
+        lmax_entry.grid(row=self.rowcounter, column=3)
+        self.rowcounter += 1
 
         # polarimetry radio button
         Tk.Label(self.master, text='polarimetry',font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
-        for i, option in zip((0,1), ('no', 'yes')):
+            row=self.rowcounter, column=0, sticky='w')
+        for i, option in zip((0, 1), ('no', 'yes')):
             r = Tk.Radiobutton(self.master, text=option, variable=self.polarimetry,
                             value=i, command=self.redraw, font=("Helvetica", 17))
-            r.grid(row=rowcounter, column=i+1)
-        rowcounter+=1
+            r.grid(row=self.rowcounter, column=i+1)
+        self.rowcounter += 1
 
         """
         spatial binning radio buttons
         """
         Tk.Label(self.master, text='spatial binning', font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         j = 1
         for i, option in zip((1., 3., 4.), ('1x1', '3x3',' 4x4')):
             r = Tk.Radiobutton(self.master, text=option, variable=self.binning,
                             value=i, command=self.redraw, font=("Helvetica", 17))
-            r.grid(row=rowcounter, column=j)
-            j+=1
-        rowcounter+=1
+            r.grid(row=self.rowcounter, column=j)
+            j += 1
+        self.rowcounter += 1
 
         # spectral resolution
         Tk.Label(self.master, text='spectral resolution R', font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         R_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.R, font=("Helvetica", 17))
         R_entry.bind('<Return>', self.redraw_from_event)
-        R_entry.grid(row=rowcounter, column=1)
-        rowcounter+=1
+        R_entry.grid(row=self.rowcounter, column=1)
+        self.rowcounter += 1
 
         # telescope transmission
         Tk.Label(self.master, text='total transmission [0,1]',font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         T_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.T, font=("Helvetica", 17))
         T_entry.bind('<Return>', self.redraw_from_event)
-        T_entry.grid(row=rowcounter, column=1)
-        rowcounter+=1
+        T_entry.grid(row=self.rowcounter, column=1)
+        self.rowcounter += 1
         
         # S/N
         Tk.Label(self.master, text='desired S/N',font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
-        T_entry = Tk.Entry(self.master, width=FWIDTH, textvariable = self.SN, font=("Helvetica", 17))
+            row=self.rowcounter, column=0, sticky='w')
+        T_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.SN, font=("Helvetica", 17))
         T_entry.bind('<Return>', self.redraw_from_event)
-        T_entry.grid(row=rowcounter, column=1)
-        rowcounter+=1
+        T_entry.grid(row=self.rowcounter, column=1)
+        self.rowcounter += 1
 
         # evolution speed
         Tk.Label(self.master, text='evolution speed (km/s)', font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+            row=self.rowcounter, column=0, sticky='w')
         v_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.v, font=("Helvetica", 17))
         v_entry.bind('<Return>', self.redraw_from_event)
-        v_entry.grid(row=rowcounter, column=1)
-        rowcounter+=1
+        v_entry.grid(row=self.rowcounter, column=1)
+        self.rowcounter += 1
 
         # resulting spatial resolution
-        Tk.Label(self.master, text='resulting spatial pixel size (arcsec)',font=("Helvetica", 17)).grid(
-            row=rowcounter, column=0, sticky='w')
+        Tk.Label(self.master, text='resulting spatial pixel size (arcsec)', font=("Helvetica", 17)).grid(
+            row=self.rowcounter, column=0, sticky='w')
         resmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.resmin, font=("Helvetica", 17))
-        resmin_entry.grid(row=rowcounter, column=1)
-        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=rowcounter, column=2)
+        resmin_entry.grid(row=self.rowcounter, column=1)
+        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=self.rowcounter, column=2)
         resmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.resmax, font=("Helvetica", 17))
-        resmax_entry.grid(row=rowcounter, column=3)
-        rowcounter+=1
+        resmax_entry.grid(row=self.rowcounter, column=3)
+        self.rowcounter += 1
 
        # resulting spectral resolution
-        Tk.Label(self.master, text='resulting spectral pixel size (pm)',font=("Helvetica", 17)).grid(row=rowcounter, column=0,sticky='w')
+        Tk.Label(self.master, text='resulting spectral pixel size (pm)',font=("Helvetica", 17)).grid(
+            row=self.rowcounter, column=0, sticky='w')
         spresmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 17))
-        spresmin_entry.grid(row=rowcounter, column=1)
-        Tk.Label(self.master, text='-',font=("Helvetica", 17)).grid(row=rowcounter, column=2)
+        spresmin_entry.grid(row=self.rowcounter, column=1)
+        Tk.Label(self.master, text='-', font=("Helvetica", 17)).grid(row=self.rowcounter, column=2)
         spresmax_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.spresmax, font=("Helvetica", 17))
-        spresmax_entry.grid(row=rowcounter, column=3)
-        rowcounter+=1
+        spresmax_entry.grid(row=self.rowcounter, column=3)
+        self.rowcounter += 1
+
         # quit button
         quit_button = Tk.Button(self.master, text="Quit", command=self.quit, font=("Helvetica", 18))
-        quit_button.grid(row=rowcounter, column=0, columnspan=4,sticky='ew')
+        quit_button.grid(row=self.rowcounter, column=0, columnspan=4, sticky='ew')
 
-        return rowcounter
-
-    def init_plot(self, rowspan):
+    def init_plot(self):
         # create Figure for the plot 
         self.fig = Figure(figsize=(WINDOW_WIDTH, WINDOW_HEIGHT), dpi=100)
         self.axes = []
@@ -193,7 +192,7 @@ class photongui:
 
         # link figure to gui
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.master)
-        self.canvas.get_tk_widget().grid(row=0, column=4, rowspan=rowspan)
+        self.canvas.get_tk_widget().grid(row=0, column=4, rowspan=self.rowcounter)
         self.canvas.draw()
 
     def init_parameters_widgets(self):
@@ -224,7 +223,7 @@ class photongui:
         lmin_init = 854.0
         self.lmin.set(lmin_init)
 
-        lmax_init=855.0
+        lmax_init = 855.0
         self.lmax.set(lmax_init)
 
         self.polarimetry.set(0)

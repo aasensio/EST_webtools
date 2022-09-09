@@ -44,8 +44,9 @@ class photongui:
         self.master = master
         self.master.title("Generic solar telescope integration time estimator              J. Leenaarts - Institute for Solar Physics")
 
+        ### Widgets & Widgets parameters###
+        self.init_parameters_widgets()
         #Widgets
-        self.bandpass = Tk.DoubleVar()
         self.cwl = Tk.ttk.Combobox(self.master, values=[('Ca II K', 393.33), ('H I beta', 486.1),
             ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Fe I @630', 630.2), ('H I alpha', 656.3),
             ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80), ('Fe I @851', 851.40), ('Ca II @854', 854.2),
@@ -53,8 +54,6 @@ class photongui:
 
         self.bp = Tk.Entry(self.master, width=FWIDTH, textvariable=self.bandpass, font=("Helvetica", 17))
 
-        self.lmin = Tk.DoubleVar()
-        self.lmax = Tk.DoubleVar()
         self.init_parameters()
 
         rowcounter = self.init_buttons()
@@ -125,7 +124,6 @@ class photongui:
             r.grid(row=rowcounter, column=j)
             j+=1
         rowcounter+=1
-
 
         # spectral resolution
         Tk.Label(self.master, text='spectral resolution R', font=("Helvetica", 17)).grid(
@@ -198,8 +196,25 @@ class photongui:
         self.canvas.get_tk_widget().grid(row=0, column=4, rowspan=rowspan)
         self.canvas.draw()
 
+    def init_parameters_widgets(self):
+        # Widgets Parameters
+        self.bandpass = Tk.DoubleVar()
+        self.lmin = Tk.DoubleVar()
+        self.lmax = Tk.DoubleVar()
+        self.D = Tk.DoubleVar()  # T elescope diameter in [m]
+        self.R = Tk.DoubleVar()  # Desired resolving power
+        self.polarimetry = Tk.IntVar()  # Polarimetric mode
+        self.T = Tk.DoubleVar()  # Overall transmission
+        self.SN = Tk.DoubleVar()  # Desired SNR
+        self.v = Tk.DoubleVar()  # Velocity of the structure
+        self.binning = Tk.DoubleVar()
+        self.resmin = Tk.DoubleVar()
+        self.resmax = Tk.DoubleVar()
+        self.spresmin = Tk.DoubleVar()
+        self.spresmax = Tk.DoubleVar()
+
     def init_parameters(self):
-        self.D = Tk.DoubleVar()
+
         self.D.set(D_INIT)
 
         self.bandpass.set(0.5)
@@ -207,48 +222,36 @@ class photongui:
         print("cucu", cwl)
 
         lmin_init = 854.0
-
         self.lmin.set(lmin_init)
 
         lmax_init=855.0
         self.lmax.set(lmax_init)
-    
-        self.polarimetry = Tk.IntVar()
+
         self.polarimetry.set(0)
 
         R_init = 8e4
-        self.R = Tk.DoubleVar()
         self.R.set(R_init)
 
         T_init = 0.1
-        self.T  = Tk.DoubleVar()
         self.T.set(T_init)
 
         SN_init = 1e3
-        self.SN = Tk.DoubleVar()
         self.SN.set(SN_init)
 
         v_init = 7.0
-        self.v = Tk.DoubleVar()
         self.v.set(v_init)
 
         binning_init = 1.0
-        self.binning = Tk.DoubleVar()
         self.binning.set(binning_init)
 
-        self.resmin = Tk.DoubleVar()
-        self.resmax = Tk.DoubleVar()
         self.set_spatres(lmin_init, lmax_init)
 
-        self.spresmin = Tk.DoubleVar()
-        self.spresmax = Tk.DoubleVar()
         self.set_specres(lmin_init, lmax_init)
 
     def quit(self):
         self.master.destroy()
 
     def set_spatres(self, lmin, lmax):
-
         self.resmin.set("{:.4f}".format(self.ph.spatres(lmin*NM_TO_M, self.D.get())))
         self.resmax.set("{:.4f}".format(self.ph.spatres(lmax*NM_TO_M, self.D.get())))
 
@@ -257,7 +260,6 @@ class photongui:
         self.spresmax.set("{:.4f}".format(self.ph.specres(lmax, self.R.get())))
 
     def redraw_from_event(self, event):
-
         self.redraw()
 
     def redraw(self):

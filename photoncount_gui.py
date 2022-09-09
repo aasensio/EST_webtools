@@ -81,7 +81,6 @@ class photongui:
         Tk.Label(self.master, text='Target Wavelength', font=("Helvetica", 18)).grid(
             row=self.rowcounter, column=0, sticky='w')
 
-        self.cwl.current(11)
         self.cwl.bind('<<ComboboxSelected>>', self.redraw_from_event)
         self.cwl.grid(row=self.rowcounter, column=1)
 
@@ -167,7 +166,7 @@ class photongui:
         self.rowcounter += 1
 
        # resulting spectral resolution
-        Tk.Label(self.master, text='resulting spectral pixel size (pm)',font=("Helvetica", 17)).grid(
+        Tk.Label(self.master, text='resulting spectral pixel size (pm)', font=("Helvetica", 17)).grid(
             row=self.rowcounter, column=0, sticky='w')
         spresmin_entry = Tk.Entry(self.master, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 17))
         spresmin_entry.grid(row=self.rowcounter, column=1)
@@ -213,18 +212,14 @@ class photongui:
         self.spresmax = Tk.DoubleVar()
 
     def init_parameters(self):
-
         self.D.set(D_INIT)
+        self.cwl.current(11)
 
-        self.bandpass.set(0.5)
+        self.bandpass.set(1.0)
         cwl = self.cwl.get().split('}', 1)
-        print("cucu", cwl)
 
-        lmin_init = 854.0
-        self.lmin.set(lmin_init)
-
-        lmax_init = 855.0
-        self.lmax.set(lmax_init)
+        self.lmin.set(float(cwl[1])-(self.bandpass.get())/2)
+        self.lmax.set(float(cwl[1])+(self.bandpass.get())/2)
 
         self.polarimetry.set(0)
 
@@ -243,9 +238,9 @@ class photongui:
         binning_init = 1.0
         self.binning.set(binning_init)
 
-        self.set_spatres(lmin_init, lmax_init)
+        self.set_spatres(self.lmin.get(), self.lmax.get())
 
-        self.set_specres(lmin_init, lmax_init)
+        self.set_specres(self.lmin.get(), self.lmax.get())
 
     def quit(self):
         self.master.destroy()
@@ -262,17 +257,9 @@ class photongui:
         self.redraw()
 
     def redraw(self):
+        #gets the target wavelength value
         cwl = self.cwl.get().split('}', 1)
-        print(float(cwl[1]))
-        # read the input parameters from buttons and fields
-        D = self.D.get() # telescope diameter
-        lmin = self.lmin.get() # wavelength range
-        lmax = self.lmax.get() 
-        R  = self.R.get() # spectral resolution 
-        SN = self.SN.get() # signal to noise ration     
-        telescopetrans = self.T.get() # telescope transmission
-        binning = self.binning.get() # spatial binning
-        v = self.v.get() * KM_TO_M # m/s
+
         # get polarimetry. should account for 4 polarization
         # states per wavelength in a balanced design with efficiency
         # 1/sqrt(3) = 0.577
@@ -285,32 +272,29 @@ class photongui:
 
         # build dictionary
         properties_dict = {}
-        properties_dict['D'] = D
-        properties_dict['lmin'] = lmin #cwl.value + cwl_shift.value - (bp.value / 2.0)
-        properties_dict['lmax'] = lmax #cwl.value + cwl_shift.value + (bp.value / 2.0)
+        properties_dict['D'] = self.D.get() # telescope diameter
+        properties_dict['lmin'] = float(cwl[1])-(self.bandpass.get())/2.0
+        properties_dict['lmax'] = float(cwl[1])+(self.bandpass.get())/2.0
         properties_dict['polarimetry'] = pfac
-        properties_dict['R'] = R# 8e4
-        properties_dict['T'] = telescopetrans #0.1
-        properties_dict['SN'] = SN #1e3
-        properties_dict['v'] = v#7.0
-        properties_dict['binning'] = binning # 1.0
+        properties_dict['R'] = self.R.get() # spectral resolution
+        properties_dict['T'] = self.T.get() # telescope transmission
+        properties_dict['SN'] = self.SN.get() # signal to noise ration
+        properties_dict['v'] = v = self.v.get() * KM_TO_M # m/s
+        properties_dict['binning'] = self.binning.get() # spatial binning
         properties_dict['strehl'] = 1.0
 
         self.ph.set_properties(properties_dict)
         self.ph.compute()
 
         # plot
-
         self.plot()
 
     def plot(self):
-
         xax = self.ph.ll * M_TO_NM
 
         for ax in self.axes:
             ax.clear()
 
-    
         ax = self.axes[0]
         ax.plot(xax, self.ph.Ilambda, label='atlas')
         ax.plot(xax, self.ph.Ilambdac, label='smeared to R')
@@ -330,7 +314,7 @@ class photongui:
         ax.set_title('optimal pixel size for given signal speed')
         ax.grid(True)
 
-        ax=self.axes[2]
+        ax = self.axes[2]
         ax.plot(xax, self.ph.t, label='with given transmission')
         ax.plot(xax, self.ph.tideal, label='perfect telescope')
         ax.legend(loc='best')

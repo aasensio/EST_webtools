@@ -18,8 +18,8 @@ M_TO_NM = 1e9
 NM_TO_PM = 1e3
 KM_TO_M = 1e3
 # plot window sizes
-WINDOW_WIDTH = 12
-WINDOW_HEIGHT = 9
+WINDOW_WIDTH = 9
+WINDOW_HEIGHT = 5
 
 #
 
@@ -255,6 +255,7 @@ class photongui():
         self.spresmin.set("{:.4f}".format(self.ph.specres(lmin, self.R.get())))
         self.spresmax.set("{:.4f}".format(self.ph.specres(lmax, self.R.get())))
 
+
     def redraw_from_event(self, event):
         self.redraw()
 
@@ -287,6 +288,8 @@ class photongui():
 
         self.ph.set_properties(properties_dict)
         self.ph.compute()
+        self.set_spatres(float(cwl[1])-(self.bandpass.get())/2.0, float(cwl[1])+(self.bandpass.get())/2.0)
+        self.set_specres(float(cwl[1])-(self.bandpass.get())/2.0, float(cwl[1])+(self.bandpass.get())/2.0)
 
         # plot
         self.plot()
@@ -340,7 +343,9 @@ class photongui():
 
 def create_main_window():
     root = Tk.Tk()
+    root.resizable(True, True)
     photongui(root)
+
     root.mainloop()
 
 if __name__ == "__main__":

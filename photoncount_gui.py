@@ -211,9 +211,10 @@ class photongui():
 
         self.bandpass.set(1.0)
         cwl = self.cwl.get().split('}', 1)
+        cwl = float(cwl[1])
 
-        self.lmin.set(float(cwl[1])-(self.bandpass.get())/2)
-        self.lmax.set(float(cwl[1])+(self.bandpass.get())/2)
+        self.lmin.set(cwl-(self.bandpass.get())/2)
+        self.lmax.set(cwl+(self.bandpass.get())/2)
 
         self.polarimetry.set(0)
 
@@ -252,7 +253,7 @@ class photongui():
         self.redraw()
 
     def redraw(self):
-        #gets the target wavelength value
+        #gets and converts the target wavelength value
         cwl = self.cwl.get().split('}', 1)
         cwl = float(cwl[1])
 

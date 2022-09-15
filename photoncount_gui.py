@@ -44,10 +44,10 @@ class photongui():
         ### Widgets & Widgets parameters###
         self.init_parameters_widgets()
         #Widgets
-        self.cwl = Tk.ttk.Combobox(self.master, values=[('Ca II K', 393.33), ('H I beta', 486.1),
-            ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Fe I @630', 630.2), ('H I alpha', 656.3),
-            ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80), ('Fe I @851', 851.40), ('Ca II @854', 854.2),
-            ('He I', 1083.0), ('Fe I IR', 1564.8)])
+        self.cwl = Tk.ttk.Combobox(self.master, values=[('Ca II K', 393.33), ('H I beta', 486.10),
+            ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
+            ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
+            ('Fe I @851', 851.40), ('Ca II @854', 854.2), ('He I', 1083.0), ('Fe I IR', 1564.8)])
 
         self.bp = Tk.Spinbox(self.master, from_=0, to=10, increment=0.02, width=5, textvariable=self.bandpass, font=("Helvetica", 16))
         self.cwls = Tk.Spinbox(self.master, from_=-1000, to=1000, increment=0.01, width=5, textvariable=self.cwl_shift, font=("Helvetica", 16))

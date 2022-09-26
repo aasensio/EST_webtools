@@ -196,6 +196,9 @@ class photongui():
         self.R = Tk.DoubleVar()  # Desired resolving power
         self.polarimetry = Tk.IntVar()  # Polarimetric mode
         self.T = Tk.DoubleVar()  # Overall transmission
+        self.T_T = Tk.DoubleVar() # Telescope transmission
+        self.T_I = Tk.DoubleVar() # Instrument transmission (without QE)
+        self.QE = Tk.DoubleVar() # qe of the detector
         self.SN = Tk.DoubleVar()  # Desired SNR
         self.v = Tk.DoubleVar()  # Velocity of the structure
         self.binning = Tk.DoubleVar()
@@ -206,7 +209,7 @@ class photongui():
 
     def init_parameters(self):
         self.D.set(D_INIT)
-        self.cwl.current(11)
+        self.cwl.current(13)
         self.cwl_shift.set(0.0)
 
         self.bandpass.set(1.0)
@@ -221,8 +224,15 @@ class photongui():
         R_init = 8e4
         self.R.set(R_init)
 
+        # throughput
         T_init = 0.1
-        self.T.set(T_init)
+        T_T = 0.3
+        T_I = 0.4
+        QE = 0.9
+        self.T_T.set(T_T)
+        self.T_I.set(T_I)
+        self.QE.set(QE)
+        self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
 
         SN_init = 1e3
         self.SN.set(SN_init)

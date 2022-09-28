@@ -48,7 +48,7 @@ class Photocount(object):
         self.sresmin = self.specres(self.lmin * NM_TO_M, self.R)
         self.sresmax = self.specres(self.lmax * NM_TO_M, self.R)
 
-    def get_atmostrans(self, M = 2.0):
+    def get_atmostrans(self, M=2.0):
         """
         Reads atmospheric transmission at La Palma from "D. L. King,
         Atmospheric Extinction at the Roque de los Muchachos

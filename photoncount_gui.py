@@ -69,7 +69,7 @@ class photongui():
         Tk.Label(self.throughput_frame, text='Total Throughput [0,1]', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
         T_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T, font=("Helvetica", 15))
-        T_widget.bind('<Return>', self.redraw_from_event)
+        #T_widget.bind('<Return>', self.redraw_from_event)
         T_widget.grid(row=0, column=1, sticky='w')
 
         T_T_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T_T, font=("Helvetica", 15))
@@ -79,14 +79,17 @@ class photongui():
         Tk.Label(self.throughput_frame, text='Telescope:', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
         T_T_widget.grid(row=1, column=1, sticky='w')
+        T_T_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='Instrument:', font=("Helvetica", 15)).grid(
             row=1, column=2, sticky='w')
         T_I_widget.grid(row=1, column=3, sticky='w')
+        T_I_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='QE:', font=("Helvetica", 15)).grid(
             row=1, column=4, sticky='w')
         QE_widget.grid(row=1, column=5, sticky='w')
+        QE_widget.bind('<Return>', self.redraw_from_event)
 
     def performance_widget(self):
         self.performance_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
@@ -188,16 +191,19 @@ class photongui():
 
     def telescope_widget(self):
         self.telescope_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
+        self.telescope_frame.grid_columnconfigure(0, weight=1)
         Tk.Label(self.telescope_frame, text='Telescope Parameters:', font=("Helvetica", 16, 'bold')).grid(
             row=0, column=0, sticky='w')
         Tk.Label(self.telescope_frame, text='Aperture diameter (m):', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
-        D_entry = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.D, font=("Helvetica", 15))
-        D_entry.bind('<Return>', self.redraw_from_event)
-        D_entry.grid(row=1, column=1, sticky='w')
+        D_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.D, font=("Helvetica", 15))
+        D_widget.bind('<Return>', self.redraw_from_event)
+        D_widget.grid(row=1, column=1, sticky='w')
 
         Tk.Label(self.telescope_frame, text='Strehl:', font=("Helvetica", 15)).grid(
             row=2, column=0, sticky='w')
+        strehl_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.strehl, font=("Helvetica", 15))
+        strehl_widget.grid(row=2, column=1, sticky='w')
 
     def init_widgets(self):
         self.title_widget()
@@ -257,6 +263,7 @@ class photongui():
         self.lmin = Tk.DoubleVar()
         self.lmax = Tk.DoubleVar()
         self.D = Tk.DoubleVar()  # T elescope diameter in [m]
+        self.strehl = Tk.DoubleVar(value=1) # Telescope Strehl ratio
         self.R = Tk.IntVar()  # Desired resolving power
         self.polarimetry = Tk.IntVar()  # Polarimetric mode
         self.T = Tk.DoubleVar()  # Overall transmission
@@ -321,7 +328,7 @@ class photongui():
         self.spresmin.set("{:.4f}".format(self.ph.specres(lmin, self.R.get())))
         self.spresmax.set("{:.4f}".format(self.ph.specres(lmax, self.R.get())))
 
-    def redraw_from_event(self):
+    def redraw_from_event(self, event):
         self.redraw()
 
     def redraw(self):
@@ -341,7 +348,7 @@ class photongui():
             #            pfac = 1.0 / 3.0**0.5
             pfac = 1.0 / 3.0
         #           pfac = 0.16
-
+        self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
         #aux variables
         lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
         # build dictionary
@@ -355,7 +362,7 @@ class photongui():
         properties_dict['SN'] = self.SN.get() # signal to noise ration
         properties_dict['v'] = v = self.v.get() * KM_TO_M # m/s
         properties_dict['binning'] = self.binning.get() # spatial binning
-        properties_dict['strehl'] = 1.0
+        properties_dict['strehl'] = self.strehl.get()
 
         self.ph.set_properties(properties_dict)
         self.ph.compute()

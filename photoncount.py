@@ -12,7 +12,7 @@ M_TO_NM = 1e9
 NM_TO_PM = 1e3
 RAD_TO_ARCSEC = 206265.
 KM_TO_M = 1e3
-M_TO_ARCSEC = 1. / (7.25e5)
+M_TO_ARCSEC = 1. / 7.25e5
 
 
 class Photocount(object):

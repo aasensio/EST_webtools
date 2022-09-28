@@ -37,7 +37,7 @@ class Photocount(object):
 
         self.T = 0.1
         # Add Strehl ratio
-        self.strehl =  1.0
+        self.strehl = 1.0
         self.SN = 1e3
         self.v = 7.0
         self.binning = 1.0
@@ -59,8 +59,8 @@ class Photocount(object):
         """
 
         a = np.loadtxt('atmostrans.dat')
-        ll = a[:,0] *1e-10 # from AA to m
-        T = a[:,1]
+        ll = a[:, 0] *1e-10 # from AA to m
+        T = a[:, 1]
         TT = 10.**(-0.4 * T * M )
         return ll, TT
 
@@ -113,7 +113,7 @@ class Photocount(object):
         iw = int( len(self.ll) / 2)
         #dl2 = self.ll[iw+1] - self.ll[iw] apparently not used
         ff = self.get_filter(self.ll, self.ll[iw] / self.R)
-        self.Ilambdac = fftconvolve(self.Ilambda, ff, mode = 'same')
+        self.Ilambdac = fftconvolve(self.Ilambda, ff, mode='same')
 
         # energy per photon [J]
         ephot = HPLANCK * CLIGHT / self.ll
@@ -131,7 +131,7 @@ class Photocount(object):
         nflux = self.Ilambda / ephot * np.pi * atrans * 1.22**2 / 4.0 * self.ll**2
 
         # number of photons per second per spatial pixel
-        nflux /=  4.0 
+        nflux /= 4.0
          # per spectral pixel
         nflux *= (dl / 2.0)
          # factor in spatial binning
@@ -157,36 +157,36 @@ class Photocount(object):
         # compute Alex Feller ideal dt,dx
         phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans * self.T * pfac # photons/ (s ster m)
         phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
-        self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v* KM_TO_M*M_TO_ARCSEC**2)
+        self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v * KM_TO_M*M_TO_ARCSEC**2)
         self.dt = self.dt**(1./3.)
         self.dx = (self.v * KM_TO_M*M_TO_ARCSEC) * self.dt
 
     def plot(self):
-        f, ax = pl.subplots(ncols=2, nrows=2, figsize=(10,10))
+        f, ax = pl.subplots(ncols=2, nrows=2, figsize=(10, 10))
 
         xax = self.ll * M_TO_NM
 
-        ax[0,0].plot(xax, self.Ilambda, label = 'atlas')
-        ax[0,0].plot(xax, self.Ilambdac, label = 'smeared to R')
-        ax[0,0].legend(loc='best')
-        ax[0,0].grid(True)
-        ax[0,0].set_xticklabels([])
-        ax[0,0].set(xlim=self.ran, ylabel=r'$I_\lambda$ [W m$^{-2}$ m$^{-1}$ sr$^{-1}$]', title='Spectrum')
+        ax[0, 0].plot(xax, self.Ilambda, label='atlas')
+        ax[0, 0].plot(xax, self.Ilambdac, label='smeared to R')
+        ax[0, 0].legend(loc='best')
+        ax[0, 0].grid(True)
+        ax[0, 0].set_xticklabels([])
+        ax[0, 0].set(xlim=self.ran, ylabel=r'$I_\lambda$ [W m$^{-2}$ m$^{-1}$ sr$^{-1}$]', title='Spectrum')
         
-        ax[0,1].plot(xax, self.dx)
-        ax[0,1].grid(True)
-        ax[0,1].set_xticklabels([])
-        ax[0,0].set(xlim=self.ran, ylabel=r'$\Delta x$ [arcsec]', title='optimal pixel size for given signal speed')
+        ax[0, 1].plot(xax, self.dx)
+        ax[0, 1].grid(True)
+        ax[0, 1].set_xticklabels([])
+        ax[0, 0].set(xlim=self.ran, ylabel=r'$\Delta x$ [arcsec]', title='optimal pixel size for given signal speed')
 
-        ax[1,0].plot(xax, self.t, label='with given transmission')
-        ax[1,0].plot(xax, self.tideal, label='perfect telescope')
-        ax[1,0].grid(True)
-        ax[1,0].legend(loc='best')
-        ax[1,0].set(xlim=self.ran, xlabel=r'$\lambda$ (nm)', ylabel=r'$\Delta t$ [s]', title='integration time for given spatial and spectral pixel size')
+        ax[1, 0].plot(xax, self.t, label='with given transmission')
+        ax[1, 0].plot(xax, self.tideal, label='perfect telescope')
+        ax[1, 0].grid(True)
+        ax[1, 0].legend(loc='best')
+        ax[1, 0].set(xlim=self.ran, xlabel=r'$\lambda$ (nm)', ylabel=r'$\Delta t$ [s]', title='integration time for given spatial and spectral pixel size')
 
-        ax[1,1].plot(xax, self.dt)
-        ax[1,1].grid(True)
-        ax[1,1].set(xlim=self.ran, xlabel=r'$\lambda$ (nm)', ylabel=r'$\Delta t$ [s]', title='optimal integration time for given signal speed')
+        ax[1, 1].plot(xax, self.dt)
+        ax[1, 1].grid(True)
+        ax[1, 1].set(xlim=self.ran, xlabel=r'$\lambda$ (nm)', ylabel=r'$\Delta t$ [s]', title='optimal integration time for given signal speed')
 
         pl.show()
 

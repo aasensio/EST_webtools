@@ -22,9 +22,16 @@ KM_TO_M = 1e3
 WINDOW_WIDTH = 9
 WINDOW_HEIGHT = 5
 
-#
+# Init value parameters
+D_INIT = 4.2 # Telescope diameter in m
+R_INIT = 8e4 # Resolving power
 
-D_INIT = 4.0
+T_T = 0.3 # Telescope throughput
+T_I = 0.4 # Instrument throughput
+QE = 0.9 # Detector QE
+
+SN_INIT = 1e3 #SNR
+V_INIT = 7.0 #Velocity
 
 # entry field width
 FWIDTH = 8
@@ -157,7 +164,8 @@ class photongui():
         self.cwls.bind('<Button-1>', self.redraw_from_event)
 
     def pixel_widget(self):
-        self.pixel_frame=tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
+        self.pixel_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
+
         Tk.Label(self.pixel_frame, text='Pixel Parameters', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
         """
@@ -179,6 +187,10 @@ class photongui():
         Tk.Label(self.pixel_frame, text='-', font=("Helvetica", 15)).grid(row=2, column=2, sticky='w')
         resmax_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmax, font=("Helvetica", 15))
         resmax_entry.grid(row=2, column=3, sticky='w')
+        self.pixel_frame.grid_columnconfigure(2, weight=1)
+        self.pixel_frame.grid_rowconfigure(2, weight=1)
+        self.pixel_frame.grid_columnconfigure(3, weight=1)
+        #self.pixel_frame.grid_rowconfigure(2, weight=1)
 
         # resulting spectral resolution
         Tk.Label(self.pixel_frame, text='resulting spectral pixel size (pm)', font=("Helvetica", 15)).grid(
@@ -258,61 +270,37 @@ class photongui():
 
     def init_parameters_widgets(self):
         # Widgets Parameters
-        self.cwl_shift = Tk.DoubleVar()
-        self.bandpass = Tk.DoubleVar()
+        self.cwl_shift = Tk.DoubleVar(value=0.0)
+        self.bandpass = Tk.DoubleVar(value=2.0)
         self.lmin = Tk.DoubleVar()
         self.lmax = Tk.DoubleVar()
-        self.D = Tk.DoubleVar()  # T elescope diameter in [m]
+        self.D = Tk.DoubleVar(value=D_INIT)  # T elescope diameter in [m]
         self.strehl = Tk.DoubleVar(value=1) # Telescope Strehl ratio
-        self.R = Tk.IntVar()  # Desired resolving power
-        self.polarimetry = Tk.IntVar()  # Polarimetric mode
+        self.R = Tk.IntVar(value=R_INIT)  # Desired resolving power
+        self.polarimetry = Tk.IntVar(value=0)  # Polarimetric mode
         self.T = Tk.DoubleVar()  # Overall transmission
-        self.T_T = Tk.DoubleVar() # Telescope transmission
-        self.T_I = Tk.DoubleVar() # Instrument transmission (without QE)
-        self.QE = Tk.DoubleVar() # qe of the detector
-        self.SN = Tk.IntVar()  # Desired SNR
-        self.v = Tk.DoubleVar()  # Velocity of the structure
-        self.binning = Tk.DoubleVar()
+        self.T_T = Tk.DoubleVar(value=T_T) # Telescope transmission
+        self.T_I = Tk.DoubleVar(value=T_I) # Instrument transmission (without QE)
+        self.QE = Tk.DoubleVar(value=QE) # qe of the detector
+        self.SN = Tk.IntVar(value=SN_INIT)  # Desired SNR
+        self.v = Tk.DoubleVar(value=V_INIT)  # Velocity of the structure
+        self.binning = Tk.DoubleVar(value=1.0)
         self.resmin = Tk.DoubleVar()
         self.resmax = Tk.DoubleVar()
         self.spresmin = Tk.DoubleVar()
         self.spresmax = Tk.DoubleVar()
 
     def init_parameters(self):
-        self.D.set(D_INIT)
         self.cwl.current(13)
-        self.cwl_shift.set(0.0)
 
-        self.bandpass.set(1.0)
         cwl = self.cwl.get().split('}', 1)
         cwl = float(cwl[1])
 
         self.lmin.set(cwl-(self.bandpass.get())/2)
         self.lmax.set(cwl+(self.bandpass.get())/2)
 
-        self.polarimetry.set(0)
-
-        R_init = 8e4
-        self.R.set(R_init)
-
         # throughput
-        T_init = 0.1
-        T_T = 0.3
-        T_I = 0.4
-        QE = 0.9
-        self.T_T.set(T_T)
-        self.T_I.set(T_I)
-        self.QE.set(QE)
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
-
-        SN_init = 1e3
-        self.SN.set(SN_init)
-
-        v_init = 7.0
-        self.v.set(v_init)
-
-        binning_init = 1.0
-        self.binning.set(binning_init)
 
         self.set_spatres(self.lmin.get(), self.lmax.get())
         self.set_specres(self.lmin.get(), self.lmax.get())

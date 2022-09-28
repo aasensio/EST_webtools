@@ -65,40 +65,62 @@ class photongui():
         input_label.grid(row=0, column=0, columnspan=4, sticky='n')
 
     def throughput_widget(self):
-        self.throughput_frame = tkinter.Frame(self.master, bd=1, relief="sunken")
-        Tk.Label(self.throughput_frame, text='Total transmission [0,1]', font=("Helvetica", 16, "bold")).grid(
+        self.throughput_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
+        Tk.Label(self.throughput_frame, text='Total Throughput [0,1]', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
-        T_entry = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T, font=("Helvetica", 15))
-        T_entry.bind('<Return>', self.redraw_from_event)
-        T_entry.grid(row=0, column=1, sticky='w')
+        T_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T, font=("Helvetica", 15))
+        T_widget.bind('<Return>', self.redraw_from_event)
+        T_widget.grid(row=0, column=1, sticky='w')
+
+        T_T_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T_T, font=("Helvetica", 15))
+        T_I_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.T_I, font=("Helvetica", 15))
+        QE_widget = Tk.Entry(self.throughput_frame, width=FWIDTH, textvariable=self.QE, font=("Helvetica", 15))
+
+        Tk.Label(self.throughput_frame, text='Telescope:', font=("Helvetica", 15)).grid(
+            row=1, column=0, sticky='w')
+        T_T_widget.grid(row=1, column=1, sticky='w')
+
+        Tk.Label(self.throughput_frame, text='Instrument:', font=("Helvetica", 15)).grid(
+            row=1, column=2, sticky='w')
+        T_I_widget.grid(row=1, column=3, sticky='w')
+
+        Tk.Label(self.throughput_frame, text='QE:', font=("Helvetica", 15)).grid(
+            row=1, column=4, sticky='w')
+        QE_widget.grid(row=1, column=5, sticky='w')
 
     def performance_widget(self):
-        self.performance_frame = tkinter.Frame(self.master, bd=1, relief="sunken")
+        self.performance_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
         Tk.Label(self.performance_frame, text='Required Performances', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
         # S/N
-        Tk.Label(self.performance_frame, text='Desired S/N:',font=("Helvetica", 16)).grid(
+        Tk.Label(self.performance_frame, text='Desired S/N:', font=("Helvetica", 16)).grid(
             row=1, column=0, sticky='w')
-        T_entry = Tk.Entry(self.performance_frame, width=FWIDTH, textvariable=self.SN, font=("Helvetica", 16))
-        T_entry.bind('<Return>', self.redraw_from_event)
-        T_entry.grid(row=1, column=1, sticky='w')
+        SN_widget = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1,
+                             width=FWIDTH, textvariable=self.SN, font=("Helvetica", 16))
+        SN_widget.bind('<Return>', self.redraw_from_event)
+        SN_widget.bind('<Button-1>', self.redraw_from_event)
+        SN_widget.grid(row=1, column=1, sticky='w')
 
         #Resolving Power
         Tk.Label(self.performance_frame, text='Resolving Power (R):', font=("Helvetica", 16)).grid(
             row=2, column=0, sticky='w')
-        R_entry = Tk.Entry(self.performance_frame, width=FWIDTH, textvariable=self.R, font=("Helvetica", 16))
-        R_entry.bind('<Return>', self.redraw_from_event)
+        R_entry = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1, width=FWIDTH,
+                             textvariable=self.R, font=("Helvetica", 16))
         R_entry.grid(row=2, column=1, sticky='w')
+        R_entry.bind('<Return>', self.redraw_from_event)
+        R_entry.bind('<Button-1>', self.redraw_from_event)
 
         #Speed evolution
         Tk.Label(self.performance_frame, text='Evolution speed (km/s):', font=("Helvetica", 16)).grid(
             row=3, column=0, sticky='w')
-        v_entry = Tk.Entry(self.performance_frame, width=FWIDTH, textvariable=self.v, font=("Helvetica", 16))
+        v_entry = Tk.Spinbox(self.performance_frame,  from_=0, to=1000, increment=0.1,
+                             width=FWIDTH, textvariable=self.v, font=("Helvetica", 16))
         v_entry.bind('<Return>', self.redraw_from_event)
+        v_entry.bind('<Button-1>', self.redraw_from_event)
         v_entry.grid(row=3, column=1, sticky='w')
 
         # polarimetry radio button
-        Tk.Label(self.performance_frame, text='Polarimetry:',font=("Helvetica", 16)).grid(
+        Tk.Label(self.performance_frame, text='Polarimetry:', font=("Helvetica", 16)).grid(
             row=4, column=0, sticky='w')
         for i, option in zip((0, 1), ('no', 'yes')):
             r = Tk.Radiobutton(self.performance_frame, text=option, variable=self.polarimetry,
@@ -106,7 +128,7 @@ class photongui():
             r.grid(row=4, column=i+1, sticky='w')
 
     def wavelength_widget(self):
-        self.wavelength_frame = tkinter.Frame(self.master, bd=1, relief="sunken")
+        self.wavelength_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
         self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values=[('Ca II K', 393.33), ('H I beta', 486.10),
             ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
             ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
@@ -132,7 +154,7 @@ class photongui():
         self.cwls.bind('<Button-1>', self.redraw_from_event)
 
     def pixel_widget(self):
-        self.pixel_frame=tkinter.Frame(self.master, bd=1, relief="sunken")
+        self.pixel_frame=tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
         Tk.Label(self.pixel_frame, text='Pixel Parameters', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
         """
@@ -165,7 +187,7 @@ class photongui():
         spresmax_entry.grid(row=3, column=3, sticky='w')
 
     def telescope_widget(self):
-        self.telescope_frame = tkinter.Frame(self.master, bd=1, relief="sunken")
+        self.telescope_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
         Tk.Label(self.telescope_frame, text='Telescope Parameters:', font=("Helvetica", 16, 'bold')).grid(
             row=0, column=0, sticky='w')
         Tk.Label(self.telescope_frame, text='Aperture diameter (m):', font=("Helvetica", 15)).grid(
@@ -235,13 +257,13 @@ class photongui():
         self.lmin = Tk.DoubleVar()
         self.lmax = Tk.DoubleVar()
         self.D = Tk.DoubleVar()  # T elescope diameter in [m]
-        self.R = Tk.DoubleVar()  # Desired resolving power
+        self.R = Tk.IntVar()  # Desired resolving power
         self.polarimetry = Tk.IntVar()  # Polarimetric mode
         self.T = Tk.DoubleVar()  # Overall transmission
         self.T_T = Tk.DoubleVar() # Telescope transmission
         self.T_I = Tk.DoubleVar() # Instrument transmission (without QE)
         self.QE = Tk.DoubleVar() # qe of the detector
-        self.SN = Tk.DoubleVar()  # Desired SNR
+        self.SN = Tk.IntVar()  # Desired SNR
         self.v = Tk.DoubleVar()  # Velocity of the structure
         self.binning = Tk.DoubleVar()
         self.resmin = Tk.DoubleVar()
@@ -286,7 +308,6 @@ class photongui():
         self.binning.set(binning_init)
 
         self.set_spatres(self.lmin.get(), self.lmax.get())
-
         self.set_specres(self.lmin.get(), self.lmax.get())
 
     def quit(self):
@@ -300,7 +321,7 @@ class photongui():
         self.spresmin.set("{:.4f}".format(self.ph.specres(lmin, self.R.get())))
         self.spresmax.set("{:.4f}".format(self.ph.specres(lmax, self.R.get())))
 
-    def redraw_from_event(self, event):
+    def redraw_from_event(self):
         self.redraw()
 
     def redraw(self):
@@ -395,7 +416,6 @@ def create_main_window():
     root = Tk.Tk()
     root.resizable(True, True)
     photongui(root)
-
     root.mainloop()
 
 if __name__ == "__main__":

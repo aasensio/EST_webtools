@@ -328,15 +328,6 @@ class photongui():
         cwl = cwl + float(self.cwls.get())
         print("cucu", cwl) #FIXME: it seems that the value that is captured is the previous and not the current
 
-        # get polarimetry. should account for 4 polarization
-        # states per wavelength in a balanced design with efficiency
-        # 1/sqrt(3) = 0.577
-        if (self.polarimetry.get() == 0):
-            pfac = 1.0
-        else:
-            #            pfac = 1.0 / 3.0**0.5
-            pfac = 1.0 / 3.0
-        #           pfac = 0.16
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
         #aux variables
         lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0

@@ -345,7 +345,7 @@ class photongui():
         properties_dict['D'] = self.D.get() # telescope diameter
         properties_dict['lmin'] = lmin
         properties_dict['lmax'] = lmax
-        properties_dict['polarimetry'] = pfac
+        properties_dict['polarimetry'] = self.polarimetry.get()
         properties_dict['R'] = self.R.get() # spectral resolution
         properties_dict['T'] = self.T.get() # telescope transmission
         properties_dict['SN'] = self.SN.get() # signal to noise ration

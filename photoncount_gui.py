@@ -329,6 +329,7 @@ class photongui():
         print("cucu", cwl) #FIXME: it seems that the value that is captured is the previous and not the current
 
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
+
         #aux variables
         lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
         # build dictionary
@@ -340,7 +341,7 @@ class photongui():
         properties_dict['R'] = self.R.get() # spectral resolution
         properties_dict['T'] = self.T.get() # telescope transmission
         properties_dict['SN'] = self.SN.get() # signal to noise ration
-        properties_dict['v'] = v = self.v.get() * KM_TO_M # m/s
+        properties_dict['v'] = self.v.get() * KM_TO_M # m/s
         properties_dict['binning'] = self.binning.get() # spatial binning
         properties_dict['strehl'] = self.strehl.get()
 

@@ -73,15 +73,18 @@ class photongui():
 
     def throughput_widget(self):
         self.throughput_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
-        Tk.Label(self.throughput_frame, text='Total Throughput [0,1]', font=("Helvetica", 16, "bold")).grid(
+        Tk.Label(self.throughput_frame, text='Total Throughput [0,1]:', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
-        T_widget = Tk.Entry(self.throughput_frame, width=5, textvariable=self.T, font=("Helvetica", 15))
+        T_widget = Tk.Label(self.throughput_frame, width=5, textvariable=self.T, font=("Helvetica", 15, "bold"))
         #T_widget.bind('<Return>', self.redraw_from_event)
         T_widget.grid(row=0, column=1, sticky='w')
 
-        T_T_widget = Tk.Entry(self.throughput_frame, width=5, textvariable=self.T_T, font=("Helvetica", 15))
-        T_I_widget = Tk.Entry(self.throughput_frame, width=5, textvariable=self.T_I, font=("Helvetica", 15))
-        QE_widget = Tk.Entry(self.throughput_frame, width=5, textvariable=self.QE, font=("Helvetica", 15))
+        T_T_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02, width=5, textvariable=self.T_T,
+                                command=self.redraw, font=("Helvetica", 15))
+        T_I_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02,width=5, textvariable=self.T_I,
+                                command=self.redraw, font=("Helvetica", 15))
+        QE_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02,
+                               command=self.redraw, width=5, textvariable=self.QE, font=("Helvetica", 15))
 
         Tk.Label(self.throughput_frame, text='Telescope:', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')

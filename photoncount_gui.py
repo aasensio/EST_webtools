@@ -106,27 +106,24 @@ class photongui():
         Tk.Label(self.performance_frame, text='Desired S/N:', font=("Helvetica", 16)).grid(
             row=1, column=0, sticky='w')
         SN_widget = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1,
-                             width=FWIDTH, textvariable=self.SN, font=("Helvetica", 16))
+                             width=FWIDTH, textvariable=self.SN, command=self.redraw, font=("Helvetica", 16))
         SN_widget.bind('<Return>', self.redraw_from_event)
-        SN_widget.bind('<Button-1>', self.redraw_from_event)
         SN_widget.grid(row=1, column=1, sticky='w')
 
         #Resolving Power
         Tk.Label(self.performance_frame, text='Resolving Power (R):', font=("Helvetica", 16)).grid(
             row=2, column=0, sticky='w')
         R_entry = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1, width=FWIDTH,
-                             textvariable=self.R, font=("Helvetica", 16))
+                             textvariable=self.R, command=self.redraw, font=("Helvetica", 16))
         R_entry.grid(row=2, column=1, sticky='w')
         R_entry.bind('<Return>', self.redraw_from_event)
-        R_entry.bind('<Button-1>', self.redraw_from_event)
 
         #Speed evolution
         Tk.Label(self.performance_frame, text='Evolution speed (km/s):', font=("Helvetica", 16)).grid(
             row=3, column=0, sticky='w')
         v_entry = Tk.Spinbox(self.performance_frame,  from_=0, to=1000, increment=0.1,
-                             width=FWIDTH, textvariable=self.v, font=("Helvetica", 16))
+                             width=FWIDTH, textvariable=self.v, command=self.redraw, font=("Helvetica", 16))
         v_entry.bind('<Return>', self.redraw_from_event)
-        v_entry.bind('<Button-1>', self.redraw_from_event)
         v_entry.grid(row=3, column=1, sticky='w')
 
         # polarimetry radio button
@@ -143,9 +140,10 @@ class photongui():
             ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
             ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
             ('Fe I @851', 851.40), ('Ca II @854', 854.2), ('He I', 1083.0), ('Fe I IR', 1564.8)])
-        self.bp = Tk.Spinbox(self.wavelength_frame, from_=0, to=10, increment=0.02, width=5, textvariable=self.bandpass, font=("Helvetica", 15))
+        self.bp = Tk.Spinbox(self.wavelength_frame, from_=0, to=10, increment=0.02, width=5, textvariable=self.bandpass,
+                             command=self.redraw, font=("Helvetica", 15))
         self.cwls = Tk.Spinbox(self.wavelength_frame, from_=-1000, to=1000, increment=0.01, width=5,
-                               textvariable=self.cwl_shift, font=("Helvetica", 15))
+                               textvariable=self.cwl_shift, command=self.redraw, font=("Helvetica", 15))
         Tk.Label(self.wavelength_frame, text='Target Wavelength Parameters:', font=("Helvetica", 16, "bold")).grid(
             row=0, column=0, sticky='w')
         Tk.Label(self.wavelength_frame, text='Target Wavelength:', font=("Helvetica", 15)).grid(
@@ -157,12 +155,11 @@ class photongui():
             row=2, column=0, sticky='w')
         self.bp.grid(row=2, column=1, sticky='w')
         self.bp.bind('<Return>', self.redraw_from_event)
-        self.bp.bind('<Button-1>', self.redraw_from_event)
+
         Tk.Label(self.wavelength_frame, text='CWL shift(nm):', font=("Helvetica", 15)).grid(
             row=2, column=2, sticky='w')
         self.cwls.grid(row=2, column=3, sticky='w')
         self.cwls.bind('<Return>', self.redraw_from_event)
-        self.cwls.bind('<Button-1>', self.redraw_from_event)
 
     def pixel_widget(self):
         self.pixel_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
@@ -172,16 +169,16 @@ class photongui():
         """
         spatial binning radio buttons
         """
-        Tk.Label(self.pixel_frame, text='spatial binning', font=("Helvetica", 15)).grid(
+        Tk.Label(self.pixel_frame, text='Spatial binning', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
         j = 1
-        for i, option in zip((1., 3., 4.), ('1x1', '3x3', ' 4x4')):
+        for i, option in zip((1., 2., 3., 4.), ('1x1', '2x2', '3x3', ' 4x4')):
             r = Tk.Radiobutton(self.pixel_frame, text=option, variable=self.binning,
                             value=i, command=self.redraw, font=("Helvetica", 15))
             r.grid(row=1, column=j, sticky='w')
             j += 1
         # resulting spatial resolution
-        Tk.Label(self.pixel_frame, text='resulting spatial pixel size (arcsec)', font=("Helvetica", 15)).grid(
+        Tk.Label(self.pixel_frame, text='Spatial pixel sampling (arcsec)', font=("Helvetica", 15)).grid(
             row=2, column=0, sticky='w')
         resmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmin, font=("Helvetica", 15))
         resmin_entry.grid(row=2, column=1, sticky='w')
@@ -194,7 +191,7 @@ class photongui():
         #self.pixel_frame.grid_rowconfigure(2, weight=1)
 
         # resulting spectral resolution
-        Tk.Label(self.pixel_frame, text='resulting spectral pixel size (pm)', font=("Helvetica", 15)).grid(
+        Tk.Label(self.pixel_frame, text='Spectral pixel sampling (pm)', font=("Helvetica", 15)).grid(
             row=3, column=0, sticky='w')
         spresmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 15))
         spresmin_entry.grid(row=3, column=1, sticky='w')
@@ -326,8 +323,6 @@ class photongui():
         cwl = float(cwl[1])
 
         cwl = cwl + float(self.cwls.get())
-        print("cucu", cwl) #FIXME: it seems that the value that is captured is the previous and not the current
-
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
 
         #aux variables

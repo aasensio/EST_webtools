@@ -122,15 +122,17 @@ class Photocount(object):
         #       = Ilambda / ephot * f0 * pi * R**2 * T * 1.22**2 * lambda**2 / (4 R**2) * (delta lambda)
         #       = Ilambda / ephot * f0 * pi        * T * 1.22**2 * lambda**2 / 4        * (delta lambda)
 
+        # delta omega is the diffraction limited pixel size
         # f0 is the fraction of the aperture that is unobscured. I
         # assume 1.0 here
 
         # number of photons per second per m per diffraction limited
         # spatial resolution element of the light entering the
         # telescope
-        nflux = self.Ilambda / ephot * np.pi * atrans * 1.22**2 / 4.0 * self.ll**2
+        nflux = self.Ilambda / ephot * np.pi * atrans*((1.22*self.ll)**2)/4.0
 
         # number of photons per second per spatial pixel
+
         nflux /= 4.0
          # per spectral pixel
         nflux *= (dl / 2.0)
@@ -155,7 +157,9 @@ class Photocount(object):
         self.sresmax = self.specres(lmax, self.R)
 
         # compute Alex Feller ideal dt,dx
-        phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans * self.T * pfac # photons/ (s ster m)
+        phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans # photons/ (s ster m) ideal
+        phi *= pfac # factor in polarimetry
+        phi *= self.T # Telescope transmission
         phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
         self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v * KM_TO_M*M_TO_ARCSEC**2)
         self.dt = self.dt**(1./3.)

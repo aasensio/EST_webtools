@@ -132,7 +132,6 @@ class Photocount(object):
         nflux = self.Ilambda / ephot * np.pi * atrans*((1.22*self.ll)**2)/4.0
 
         # number of photons per second per spatial pixel
-
         nflux /= 4.0
          # per spectral pixel
         nflux *= (dl / 2.0)

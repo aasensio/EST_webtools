@@ -29,6 +29,7 @@ R_INIT = 8e4 # Resolving power
 T_T = 0.3 # Telescope throughput
 T_I = 0.4 # Instrument throughput
 QE = 0.9 # Detector QE
+CLD = 1.0 # CLD Focal station BS transmission or reflection
 
 SN_INIT = 1e3 #SNR
 V_INIT = 7.0 #Velocity
@@ -79,16 +80,19 @@ class photongui():
         #T_widget.bind('<Return>', self.redraw_from_event)
         T_widget.grid(row=0, column=1, sticky='w')
 
-        T_T_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02, width=5, textvariable=self.T_T,
+        T_T_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02, width=5, textvariable=self.T_T,
                                 command=self.redraw, font=("Helvetica", 15))
-        T_I_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02,width=5, textvariable=self.T_I,
+        T_I_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02,width=5, textvariable=self.T_I,
                                 command=self.redraw, font=("Helvetica", 15))
-        QE_widget = Tk.Spinbox(self.throughput_frame, from_=0.0, to=1.0, increment=0.02,
+        QE_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
                                command=self.redraw, width=5, textvariable=self.QE, font=("Helvetica", 15))
+
+        CLD_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
+                               command=self.redraw, width=5, textvariable=self.CLD, font=("Helvetica", 15))
 
         Tk.Label(self.throughput_frame, text='Telescope:', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
-        T_T_widget.grid(row=1, column=1, sticky='w')
+        T_T_widget.grid(row=1, column=1)
         T_T_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='Instrument:', font=("Helvetica", 15)).grid(
@@ -100,6 +104,11 @@ class photongui():
             row=1, column=4, sticky='w')
         QE_widget.grid(row=1, column=5, sticky='w')
         QE_widget.bind('<Return>', self.redraw_from_event)
+
+        Tk.Label(self.throughput_frame, text='CLD Focal station:', font=("Helvetica", 15)).grid(
+            row=1, column=6, sticky='w')
+        CLD_widget.grid(row=1, column=7, sticky='w')
+        CLD_widget.bind('<Return>', self.redraw_from_event)
 
     def performance_widget(self):
         self.performance_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
@@ -283,6 +292,7 @@ class photongui():
         self.T_T = Tk.DoubleVar(value=T_T) # Telescope transmission
         self.T_I = Tk.DoubleVar(value=T_I) # Instrument transmission (without QE)
         self.QE = Tk.DoubleVar(value=QE) # qe of the detector
+        self.CLD = Tk.DoubleVar(value=CLD) # transmission of the Focal Station BS
         self.SN = Tk.IntVar(value=SN_INIT)  # Desired SNR
         self.v = Tk.DoubleVar(value=V_INIT)  # Velocity of the structure
         self.binning = Tk.DoubleVar(value=1.0)
@@ -326,7 +336,7 @@ class photongui():
         cwl = float(cwl[1])
 
         cwl = cwl + float(self.cwls.get())
-        self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get())
+        self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get()*self.CLD.get())
 
         #aux variables
         lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0

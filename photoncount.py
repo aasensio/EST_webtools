@@ -117,10 +117,6 @@ class Photocount(object):
         else:
             nflux = self.Ilambda / ephot * np.pi * atrans*((self.ll*area)**2)/4.0
 
-        # number of photons per second per spatial pixel
-        #nflux /= 4.0
-         # per spectral pixel
-        #nflux *= (dl / 2.0)
         return nflux
 
 
@@ -140,38 +136,21 @@ class Photocount(object):
 
         # cut out selected  wavelength range
         iw = np.where((self.atlas.ll > lmin * NM_TO_M) & (self.atlas.ll < lmax * NM_TO_M))[0]
-        self.Ilambda = self.atlas.ii[iw]
-        self.ll = self.atlas.ll[iw]
 
+        self.ll = self.atlas.ll[iw]
         # interpolate atmospheric transmission
         atrans = np.interp(self.ll, self.al, self.at)
-
-        # wavelength spacing
-        dl = self.ll/self.R
-
-        # spectrally convolved spectrum, assume wavelength spacing is
-        # equidistant.  the spacing changes slowly over the entire
-        # wavelength range so this is approx OK.
-        iw = int(len(self.ll)/2)
-        #dl2 = self.ll[iw+1] - self.ll[iw] apparently not used
-        ff = self.get_filter(self.ll, self.ll[iw] / self.R)
-        self.Ilambdac = fftconvolve(self.Ilambda, ff, mode='same')
 
         # energy per photon [J]
         ephot = HPLANCK * CLIGHT / self.ll
 
-        # nphot = Ilambda / ephot * A              * T * (delta omega)**2               * (delta lambda)
-        #       = Ilambda / ephot * f0 * pi * R**2 * T * 1.22**2 * lambda**2 / (4 R**2) * (delta lambda)
-        #       = Ilambda / ephot * f0 * pi        * T * 1.22**2 * lambda**2 / 4        * (delta lambda)
-
-        # delta omega is the diffraction limited pixel size
-        # f0 is the fraction of the aperture that is unobscured. I
-        # assume 1.0 here
+        # wavelength spacing
+        dl = self.ll/self.R
 
         # number of photons per second per m per diffraction limited
         # spatial resolution element of the light entering the
-        # telescope
-        nflux = self.Ilambda / ephot * np.pi * atrans*((1.22*self.ll)**2)/4.0
+        # telescope:
+        nflux = self.compute_photons(lmin, lmax)
 
         # number of photons per second per spatial pixel
         nflux /= 4.0

@@ -244,8 +244,10 @@ class Photocount(object):
         self.binning = d['binning']
         self.strehl = d['strehl']
 
-    def export_photonflux(self):
-        photon_flux=None
+    def export_photonflux(self, wavelength, bandpass):
+        self.lmin = wavelength - bandpass/2.0
+        self.lmax = wavelength + bandpass/2.0
+        photon_flux = self.compute_nflux(self.lmin, self.lmax)
         return photon_flux
 
 if (__name__ == '__main__'):

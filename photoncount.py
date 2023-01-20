@@ -82,7 +82,7 @@ class Photocount(object):
         out = l / R / 2.0 * NM_TO_PM
         return out
 
-    def compute_photons(self, lmin, lmax, area=1.0, diff=True):
+    def compute_nflux(self, lmin, lmax, area=1.0, diff=True):
         # cut out selected  wavelength range
         iw = np.where((self.atlas.ll > lmin * NM_TO_M) & (self.atlas.ll < lmax * NM_TO_M))[0]
         self.Ilambda = self.atlas.ii[iw]
@@ -114,11 +114,28 @@ class Photocount(object):
         # telescope
         if diff==True:
             nflux = self.Ilambda / ephot * np.pi * atrans*((1.22*self.ll*area)**2)/4.0
+            nfluxc = self.Ilambdac / ephot * np.pi * atrans*((1.22*self.ll*area)**2)/4.0
         else:
             nflux = self.Ilambda / ephot * np.pi * atrans*((self.ll*area)**2)/4.0
+            nfluxc = self.Ilambdac / ephot * np.pi * atrans * ((self.ll * area) ** 2) / 4.0
 
         return nflux
 
+    def compute_phi(self, lmin, lmax):
+        # cut out selected  wavelength range
+        iw = np.where((self.atlas.ll > lmin * NM_TO_M) & (self.atlas.ll < lmax * NM_TO_M))[0]
+        self.Ilambda = self.atlas.ii[iw]
+        self.ll = self.atlas.ll[iw]
+
+        # energy per photon [J]
+        ephot = HPLANCK * CLIGHT / self.ll
+
+        # interpolate atmospheric transmission
+        atrans = np.interp(self.ll, self.al, self.at)
+        # compute Alex Feller ideal dt,dx
+        phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans # photons/ (s ster m) ideal
+        phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
+        return phi
 
 
     def compute(self):
@@ -150,7 +167,7 @@ class Photocount(object):
         # number of photons per second per m per diffraction limited
         # spatial resolution element of the light entering the
         # telescope:
-        nflux = self.compute_photons(lmin, lmax)
+        nflux = self.compute_nflux(lmin, lmax)
 
         # number of photons per second per spatial pixel
         nflux /= 4.0
@@ -178,9 +195,9 @@ class Photocount(object):
 
         # compute Alex Feller ideal dt,dx
         phi = self.Ilambda / ephot * np.pi / 4.0 * self.D**2 * atrans # photons/ (s ster m) ideal
+        phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
         phi *= pfac # factor in polarimetry
         phi *= self.T # Telescope transmission
-        phi = phi * NM_TO_M / RAD_TO_ARCSEC**2 # photons/ (s arcsec**2 nm)
         self.dt = self.SN**2 / phi / (dl/NM_TO_M/2.0) / (self.v * KM_TO_M*M_TO_ARCSEC**2)
         self.dt = self.dt**(1./3.)
         self.dx = (self.v * KM_TO_M*M_TO_ARCSEC) * self.dt
@@ -226,6 +243,10 @@ class Photocount(object):
         self.v = d['v']
         self.binning = d['binning']
         self.strehl = d['strehl']
+
+    def export_photonflux(self):
+        photon_flux=None
+        return photon_flux
 
 if (__name__ == '__main__'):
     out = Photocount()

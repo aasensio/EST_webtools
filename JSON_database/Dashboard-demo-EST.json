@@ -1,0 +1,2690 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "dXfltGBVk"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 43,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "# Follow this instructions to learn everything about this dashboard and how to use it to see all information from the EST Database\n\n## Index:\n1. How to interact with the panels\n2. I see a message showing \"NO DATA\" or a similar message\n3. I click on the variables but nothing happen:\n4. How to download information from panels\n5. Feedback\n\n## - How to interact with the panels:\n1. Every group of panels has a README (like this) with them, there it is explained how to work with that group of panels, how are they related with each other and which variables do they use.\n2. Anyways, it is quite interactive and there is no problem on corrupt the data, since here it is not possible to edit the information in the database, so feel free to click on everywhere.\n\n## - I see a message showing \"NO DATA\" or a similar message:\n1. First of all, keep calm, as it was said before, everything is ok, but it is necessary to show that information that a previous variable is selected, normally clicking on a pannel of the same group.\n2. If the message which appears says `bar charts requires a string or time field` it is the same case as before.\n\n## - I click on the variables but nothing happen:\nThere are two options for them, normally explained on the README from the group of pannels where it is ocurring this error:\n  1. First of all, the table or graphic you are trying to moddify it is not realted with the table you are selecting the variables, take a look if they speak about the same variable\n  2. Another option is that it is not implemented, in that case, feel free to give us feedback.\n\n## - How to download information from panels:\n\n`CSV FORMAT`\n  1. Right click on the panel title.\n  2. Click on Inspect.\n  3. After that select Data.\n  4. Click on the \"Download CSV\" buttton.\n\n`JSON FORMAT`\n  1. Right click on the panel title.\n  2. Click on Inspect.\n  3. After that select JSON.\n  4. Copy the JSON content to your clipboard.\n  5. Paste it in your file.\n\n## - Feedback\n\nFeel free to give us feedback, anything you appreciated and you think it can be useful to improve our implementation.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "9.4.3",
+      "title": "README",
+      "type": "text"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 25,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 9
+          },
+          "id": 51,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "# How does it works:\n\n1. Select one of the wavelength it is shown on the bar diagram (click on it and after that on the blue icon it is shown right after the first click).\n2. As you can see, it is showed the combination of instruments which study that given spectral line.\n3. If it is clicked the combination of instruments the table below will show only the information related with that given combination of instruments, instead of all the information related to the selected wavelength.",
+            "mode": "markdown"
+          },
+          "pluginVersion": "9.4.3",
+          "title": "README",
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "description": "This graph measures how much each spectral line has been studied in the different OP",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "incidence"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-leftSpectralLine=wavelength_spectral_line&var-comment=--&var-\nrightSpectralLine=${__data.fields.wavelength}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 16,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "id": 26,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xField": "wavelength",
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT wavelength_spectral_line as wavelength, count(subquery.*) AS incidence\nFROM (\n  SELECT wavelength_spectral_line, id_op \n  FROM instrument_measures_line_in_fov_of_op\n  GROUP BY wavelength_spectral_line, id_op\n  ORDER BY wavelength_spectral_line, id_op\n) subquery\nGROUP BY wavelength_spectral_line;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Incidence of spectral lines",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "incidence_of_instruments"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "Instruments",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-CommentScope=&var-leftCombinationOfInstruments=combination_of_instruments&var-\nrightCombinationOfInstruments=${__data.fields.used_instruments}&var-leftSpectralLine=wavelength_spectral_line&var-rightSpectralLine=$rightSpectralLine&var-comment= "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "id": 27,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.8,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "horizontal",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 100
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT count(id_op) as incidence_of_instruments, used_instruments\nFROM (\n\tSELECT wavelength_spectral_line, id_op, string_agg(name_instrument, ', ') as used_instruments  \n\tFROM (\n\tSELECT wavelength_spectral_line, id_op, name_instrument\n\tFROM instrument_measures_line_in_fov_of_op\n\tGROUP BY wavelength_spectral_line, id_op, name_instrument\n\tORDER BY wavelength_spectral_line, id_op, name_instrument\n\t) subquery\n\tWHERE $leftSpectralLine = '$rightSpectralLine' \n\tGROUP BY wavelength_spectral_line, id_op\n\tORDER BY wavelength_spectral_line, id_op\n) t\nGROUP BY used_instruments\norder BY incidence_of_instruments;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Combination of instruments which study the spectral line ${rightSpectralLine}",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "wavelength_spectral_line"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 185
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "wavelength"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 97
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 22
+          },
+          "id": 9,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT wavelength, string_agg(id_op, ', ') as OP_which_measures_spectral_line_on_given_instruments, combination_of_instruments\nFROM (\n\tSELECT wavelength, id_op, string_agg(name_instrument, ', ') as combination_of_instruments\n\tFROM (\n\t\tSELECT wavelength_spectral_line AS wavelength, id_op, name_instrument\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tWHERE $leftSpectralLine = '$rightSpectralLine'\n\t\tGROUP BY wavelength_spectral_line, id_op, name_instrument\n\t\tORDER BY wavelength_spectral_line, id_op\n\t) subquery\n\tGROUP BY wavelength, id_op\n\tORDER BY id_op\n) t\n$comment WHERE $leftCombinationOfInstruments = '$rightCombinationOfInstruments' \nGROUP BY wavelength, combination_of_instruments\nORDER BY wavelength, OP_which_measures_spectral_line_on_given_instruments;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "OP which study the spectral line ${rightSpectralLine} with instrument(s) ${rightCombinationOfInstruments}",
+          "type": "table"
+        }
+      ],
+      "title": "Spectral Lines",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 29,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "gridPos": {
+            "h": 12,
+            "w": 24,
+            "x": 0,
+            "y": 31
+          },
+          "id": 53,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "# How does it works:\n\n1. Select one of the CLD's it is shown.\n2. On the two tables below it will be filtered to the data from the selected CLD.\n3. The data from these tables is the amount and perecentage of measures doing on the selected CLD where DL (difraction limit) is reached.\n4. Right next to it the list of OP where DL is reached on the selected CLD is shown.\n5. On the table \"Filter value for FOV\" you have to select on enumber fo filter from it, when you click on one, the operators will shown.\n\nExample\n===\n~~~\n  If you want to filter by FOV greater than five, just have to click on 5 and after it on \">\"\n~~~\n* You can combine both filtering values for the last table, where CLD is selected and a FOV filter value is given.\n* It will not work if you don't give a filter value for FOV, if you want to show everyhting select one of both next options.\n\n    `>= 1` or `<= 120` <p>\n\n* If you want to change the operator but to keep the number value to filter it is necessary to select again the numeric value.",
+            "mode": "markdown"
+          },
+          "pluginVersion": "9.4.3",
+          "title": "README",
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              },
+              "mappings": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "used_in_op"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "CLD",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-comment= &var-leftCLD=cld&var-\nrightCLD=${__data.fields.cld}&var-valueFOV=${valueFOV}&var-operatorFOV=${operatorFOV}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 43
+          },
+          "id": 31,
+          "options": {
+            "displayLabels": [
+              "name",
+              "percent"
+            ],
+            "legend": {
+              "displayMode": "list",
+              "placement": "right",
+              "showLegend": true,
+              "values": [
+                "value",
+                "percent"
+              ]
+            },
+            "pieType": "pie",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT cld, count(id_op) as used_in_OP\nFROM (\n\tSELECT id_op, cld\n\tFROM instrument_measures_line_in_fov_of_op\n\tINNER JOIN spectral_line\n\tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\tGROUP by id_op, cld\n) subquery\nGROUP BY cld;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Usage of CLD",
+          "type": "piechart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cld"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 63
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "measures_with_dl"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 153
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "total"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 64
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 50
+          },
+          "id": 33,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT cld, sum(used_in_OP_partitioned) as measures_with_DL, sum(total) as total, concat(cast(sum(used_in_OP_partitioned)/sum(total)*100 AS varchar(5)), '%') as percentage_when_DL_is_reached\nFROM (\n\tSELECT cld, count(id_op) as used_in_OP_partitioned, null as total\n\tFROM (\n\t\tSELECT id_op, cld\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tINNER JOIN spectral_line\n\t\tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\t\tWHERE arc_sec_fov = -1\n\t\tGROUP by id_op, cld\n\t) subquery\n\tGROUP BY cld\nUNION\n\tSELECT cld, null, count(id_op) as used_in_OP_total\n\tFROM (\n\t\tSELECT id_op, cld\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tINNER JOIN spectral_line\n\t\tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\t\tGROUP by id_op, cld\n\t) subquery\n\tGROUP BY cld\n) t\n$comment WHERE $leftCLD = '$rightCLD' \nGROUP BY cld",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Usage of CLD ${rightCLD} when DL is reached",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "op_which_measures_spectral_line_on_given_instruments"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 709
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "wavelength"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 98
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 50
+          },
+          "id": 35,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT wavelength, string_agg(id_op, ', ') as OP_which_measures_spectral_line_on_given_instruments, cld\nFROM (\n\tSELECT wavelength, id_op, cld\n\tFROM (\n\t\tSELECT wavelength_spectral_line AS wavelength, id_op, cld, arc_sec_fov\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tINNER JOIN spectral_line\n\t\tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\t\tWHERE arc_sec_fov = -1\n\t\tGROUP BY wavelength_spectral_line, id_op, cld, arc_sec_fov\n\t\tORDER BY wavelength_spectral_line, id_op\n\t) subquery\n\tGROUP BY wavelength, id_op, CLD\n\tORDER BY id_op\n) t\n$comment WHERE $leftCLD = '$rightCLD'\nGROUP BY wavelength, cld\nORDER BY wavelength, OP_which_measures_spectral_line_on_given_instruments;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "OP and spectral lines where DL is reached on selected CLD ${rightCLD}",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "filter_value"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-valueFOV=${__data.fields.filter_value}&var-comment=${comment}&var-leftCLD=cld&var-\nrightCLD=${rightCLD}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 7,
+            "x": 0,
+            "y": 58
+          },
+          "id": 37,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "limit": 0,
+              "values": true
+            },
+            "textMode": "value"
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "select height_fov as filter_value\nFROM instrument_measures_line_in_fov_of_op\ngroup by height_fov\norder by height_fov;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Filter value for FOV",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "string"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "operator"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-valueFOV=${valueFOV}&var-operatorFOV=${__data.fields.operator}&var-comment=${comment}&var-leftCLD=cld&var-\nrightCLD=${rightCLD}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 5,
+            "x": 7,
+            "y": 58
+          },
+          "id": 39,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "/.*/",
+              "values": true
+            },
+            "textMode": "value"
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT * \nFROM (\n  VALUES ('>'), ('<'), ('>='), ('<='), ('='), ('!=')\n) t1 (operator)\nWHERE $valueFOV = $valueFOV",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Operator to filter in FOV",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "id_op"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 53
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "wavelength"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 99
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "cld"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 41
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "fov"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 76
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "arc_sec_fov"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 96
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "spectral_resolution"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 146
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 58
+          },
+          "id": 41,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT \twavelength_spectral_line as wavelength,\n\t\tid_op,\n\t\tcld,\n\t\tconcat(concat(width_fov, 'x'),height_fov) as FoV,\n\t\tCASE arc_sec_fov\n\t\t\tWHEN '-1' THEN 'DL'\n\t\t\telse arc_sec_fov\n\t\tEND,\n\t\tspectral_resolution,\n\t\tcomment_spectral_resolution\nFROM (\n  SELECT wavelength_spectral_line, id_op, cld, width_fov, height_fov,cast(arc_sec_fov as varchar(4)), spectral_resolution, comment_spectral_resolution\n  FROM instrument_measures_line_in_fov_of_op\n  INNER JOIN spectral_line\n  ON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n  WHERE (width_fov $operatorFOV '$valueFOV' or height_fov $operatorFOV '$valueFOV')\n  ORDER BY id_op, wavelength_spectral_line, width_fov, height_fov\n) t\n$comment WHERE $leftCLD = '$rightCLD'",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Spectral line and OP where CLD ${rightCLD} and FoV is ${operatorFOV} ${valueFOV}",
+          "type": "table"
+        }
+      ],
+      "title": "CLD's",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 45,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 67
+          },
+          "id": 55,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "# How does it works:\n\n1. There is not variables to select in this group.\n2. In the first table we can see the data related with transmission values.\n\n    * In this case, if the continuum or core transmission (one of both) have a value grater than 50% it is stored on that bar, beign restrcited by its greater value.\n    \n    * Null data is ignored, so if there are no transmission value, they are not included here (that's why we only show 91 bars from 567 measures) <p>\n3. The table right next to it include the list of OP, separated by the goal (the first number so it is easier to search), where the transmission value is < 10 (in both casses, continuum and core)",
+            "mode": "markdown"
+          },
+          "pluginVersion": "9.4.3",
+          "title": "README",
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 74
+          },
+          "id": 47,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "none",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT max_transmission, count(max_transmission) as ocurrences\nFROM (\n\tSELECT id_op, SPLIT_PART(mix, ',', 1) as max_transmission\n\tFROM (\n\t\tSELECT id_op, string_agg(score_range, ', ') as mix\n\t\tFROM (\n\t\t\tselect id_op, t.range as score_range\n\t\t\tfrom (\n\t\t\t\tselect case\n\t\t\t\t\twhen transmission_continuum > 0.5 or transmission_core > 0.5 then '>50%'\n\t\t\t\t\twhen transmission_continuum between 0.2 and 0.5 or transmission_core between 0.20 and 0.50 then '20-50%'\n   \t\t\t\t\twhen transmission_continuum between 0.1 and 0.2 or transmission_core between 0.10 and 0.20 then '10-20%'\n \t\t\t\t\telse '0-10%'\n\t\t\t\tend as range, id_op\n\t\t\t\tfrom instrument_measures_line_in_fov_of_op\n\t\t\t\twhere transmission_continuum IS NOT NULL and transmission_core IS NOT NULL\n\t\t\t) t\n\t\t\tGROUP BY id_op, t.range \n\t\t\torder by id_op, score_range desc\n\t\t) u\n\t\tGROUP BY id_op\n\t) v\n) w\nGROUP BY max_transmission\nORDER BY max_transmission",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Observing programs ant its greater transmission value",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "list_op_by_goal_section"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 769
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 74
+          },
+          "id": 49,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT string_agg(u.id_op, ', ') list_op_by_goal_section, id_goal\nFROM (\n\tSELECT id_op\n\tFROM instrument_measures_line_in_fov_of_op\n\tWHERE transmission_continuum < 0.1 or transmission_core < 0.1\n\tGROUP BY id_op\n\tORDER BY id_op\n) u\ninner JOIN observing_program \nON id = u.id_op\nGROUP BY id_goal\norder by id_goal;\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "List of OP when transmission is < 10 ",
+          "type": "table"
+        }
+      ],
+      "title": "Transmission",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
+      "id": 23,
+      "panels": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "description": "",
+          "gridPos": {
+            "h": 5,
+            "w": 24,
+            "x": 0,
+            "y": 68
+          },
+          "id": 57,
+          "options": {
+            "code": {
+              "language": "plaintext",
+              "showLineNumbers": false,
+              "showMiniMap": false
+            },
+            "content": "# How does it works\n\n1. First fo all this group is not this group is not as polished as the previous ones, these ones where the first approximations which can be useful as ideas of what can be done in the future.\n2. Each panel on the left is related to the table on the right, so, to modify the content of the tables click on the left panel.\n3. Once you click on a variable the other tables will collapse and show \"No data\", no worry, to show it again select the variable you clicked before.",
+            "mode": "markdown"
+          },
+          "pluginVersion": "9.4.3",
+          "title": "README",
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "description": "Combination of instruments and how are them distributed in the different Observing Programs ",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              },
+              "mappings": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "amount_of_op"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "CombinationOfInstruments",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-comment= &var-leftCombinationOfInstruments=combination_of_instruments&var-rightCombinationOfInstruments=${__data.fields.combination_of_instruments}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 73
+          },
+          "id": 2,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "pieType": "pie",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "desc"
+            }
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT \t\n\t\tcombination_of_instruments, \n\t\tcount(combination_of_instruments) AS amount_of_OP\nFROM (\n\tSELECT id_op, string_agg(name_instrument, ', ') as combination_of_instruments\n\tFROM (\n\t\tSELECT id_op, name_instrument, count(name_instrument) OVER (PARTITION BY id_op) as instruments_used_in_op\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tGROUP BY name_instrument, id_op\n\t\tORDER BY name_instrument\n\t) t\n\tGROUP BY id_op\n\tORDER BY combination_of_instruments, id_op\n) u\nGROUP BY combination_of_instruments\nORDER BY amount_of_OP, combination_of_instruments;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "snr",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "whereJsonTree": {
+                  "children1": [
+                    {
+                      "id": "b9a8b888-0123-4456-b89a-b18708b85ecc",
+                      "properties": {
+                        "field": "snr",
+                        "operator": "greater",
+                        "value": [
+                          1000
+                        ],
+                        "valueSrc": [
+                          "value"
+                        ],
+                        "valueType": [
+                          "number"
+                        ]
+                      },
+                      "type": "rule"
+                    }
+                  ],
+                  "id": "bbbb8b99-89ab-4cde-b012-3187089b7ee4",
+                  "type": "group"
+                },
+                "whereString": "snr > 1000"
+              },
+              "table": "instrument_measures_line_in_fov_of_op"
+            }
+          ],
+          "title": "Combination of instruments and its usage",
+          "type": "piechart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "combination_of_instruments"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 209
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "list_of_op"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 472
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 73
+          },
+          "id": 5,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT \t\n\t\tcombination_of_instruments,\n\t\tstring_agg(id_op, ', ') AS list_of_OP\nFROM (\n\tSELECT id_op, string_agg(name_instrument, ', ') as combination_of_instruments\n\tFROM (\n\t\tSELECT id_op, name_instrument, count(name_instrument) OVER (PARTITION BY id_op) as instruments_used_in_op\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tGROUP BY name_instrument, id_op\n\t\tORDER BY name_instrument\n\t) t\n\tGROUP BY id_op\n\tORDER BY combination_of_instruments, id_op\n) u\n$comment WHERE $leftCombinationOfInstruments = '$rightCombinationOfInstruments' \nGROUP BY combination_of_instruments\nORDER BY combination_of_instruments;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "OP studied by combination of instruments ${rightCombinationOfInstruments}",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                }
+              },
+              "mappings": []
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "incidence_of_combinations"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "ModuleUsage",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-comment= &var-leftModuleUsage=combination_of_modules&var-\nrightModuleUsage=${__data.fields.combination_of_modules}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 82
+          },
+          "id": 15,
+          "options": {
+            "displayLabels": [
+              "name",
+              "value"
+            ],
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "pieType": "pie",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT \tcombination_of_modules, \n\t\tcount(combination_of_modules) AS incidence_of_combinations\nFROM (\n\tSELECT id_op, string_agg(module_name, ', ') as combination_of_modules\n\tFROM (\n\t\tSELECT id_op, module_name, count(module_name) OVER (PARTITION BY id_op) as instruments_used_in_op\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tINNER JOIN instrument\n\t\tON instrument.name = instrument_measures_line_in_fov_of_op.name_instrument\n\t\tGROUP BY module_name, id_op\n\t\tORDER BY module_name\n\t) t\n\tGROUP BY id_op\n) u\nGROUP BY combination_of_modules\nORDER BY incidence_of_combinations;\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Usage of modules and its combinations",
+          "type": "piechart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "combination_of_modules"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 189
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 82
+          },
+          "id": 17,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT \tcombination_of_modules, string_agg(id_op, ', ') as op_using_modules\nFROM (\n\tSELECT id_op, string_agg(module_name, ', ') as combination_of_modules\n\tFROM (\n\t\tSELECT id_op, module_name, count(module_name) OVER (PARTITION BY id_op) as instruments_used_in_op\n\t\tFROM instrument_measures_line_in_fov_of_op\n\t\tINNER JOIN instrument\n\t\tON instrument.name = instrument_measures_line_in_fov_of_op.name_instrument\n\t\tGROUP BY module_name, id_op\n\t\tORDER BY module_name\n\t) t\n\tGROUP BY id_op\n\tORDER BY id_op\n) u\n$comment WHERE $leftModuleUsage = '$rightModuleUsage'\nGROUP BY combination_of_modules\n",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "OP of selected module ${rightModuleUsage}",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisGridShow": false,
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "hue",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 0,
+                "scaleDistribution": {
+                  "linearThreshold": 5,
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "choose"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "scope",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-CommentScope=&var-\nvalueScope=${__data.fields.scope}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 90
+          },
+          "id": 19,
+          "options": {
+            "barRadius": 0.25,
+            "barWidth": 0.8,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "orientation": "vertical",
+            "showValue": "never",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "asc"
+            },
+            "xField": "scope",
+            "xTickLabelRotation": -30,
+            "xTickLabelSpacing": 0
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT scope, choose\nFROM (\n\tSELECT width_fov, height_fov, CONCAT(width_fov, 'x', height_fov)AS scope, 1 as choose\n\tFROM instrument_measures_line_in_fov_of_op\n\tGROUP BY scope,width_fov, height_fov\n\tORDER BY width_fov, height_fov\n) t;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "FoVs",
+          "transparent": true,
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "name_instrument"
+                },
+                "properties": [
+                  {
+                    "id": "custom.width",
+                    "value": 338
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 90
+          },
+          "id": 21,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT id_op,\n\t\t\t\tname_instrument,\n\t\t\t\twavelength_spectral_line,\n\t\t\t\tarc_sec,\n\t\t\t\tFoV\nFROM (\n\tSELECT \tid_op,\n\t\t\t\t\tname_instrument,\n\t\t\t\t\twavelength_spectral_line,\n\t\t\t\t\tarc_sec_fov AS arc_sec,\n\t\t\t\t\twidth_fov,\n\t\t\t\t\theight_fov,\n\t\t\t\t\tCONCAT(width_fov, 'x', height_fov) AS FoV\n\tFROM instrument_measures_line_in_fov_of_op\n\tGROUP BY id_op, name_instrument, wavelength_spectral_line, arc_sec_fov, width_fov, height_fov, FoV\n\tORDER BY id_op, wavelength_spectral_line, width_fov, height_fov, name_instrument, arc_sec\n)t\n$comment WHERE FoV = '$valueScope';",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [
+                      {
+                        "name": "arc_sec_fov",
+                        "type": "functionParameter"
+                      }
+                    ],
+                    "type": "function"
+                  },
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              },
+              "table": "instrument_measures_line_in_fov_of_op"
+            }
+          ],
+          "title": "Measure info when given scope",
+          "transparent": true,
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "fillOpacity": 80,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineWidth": 1,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "incidence"
+                },
+                "properties": [
+                  {
+                    "id": "links",
+                    "value": [
+                      {
+                        "title": "CombinationOfCLD",
+                        "url": "/d/${__dashboard.uid}/${__dashboard}?orgId=${__org}&var-LeftCombinationOfCLD=combination_of_cld&var-RightCombinationOfCLD=${__data.fields.combination_of_cld}"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 98
+          },
+          "id": 11,
+          "options": {
+            "barRadius": 0,
+            "barWidth": 0.97,
+            "fullHighlight": false,
+            "groupWidth": 0.7,
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "orientation": "auto",
+            "showValue": "auto",
+            "stacking": "none",
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            },
+            "xTickLabelRotation": 0,
+            "xTickLabelSpacing": 0
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT combination_of_cld, count(combination_of_cld) as incidence\nFROM (\n\tSELECT \tid_op, string_agg(cld, ', ') as combination_of_cld\n\tFROM (\n\t\tSELECT id_op, cld\n\t\tFROM (\n\t\t\tSELECT id_op, cld\n\t\t\tFROM instrument_measures_line_in_fov_of_op\n\t\t\tINNER JOIN spectral_line\n\t\t\tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\t\t\tGROUP BY cld, id_op\n\t\t) t\n\t\tGROUP BY id_op, cld\n\t\tORDER BY id_op, cld\n\t) u\n\tGROUP BY id_op\n) v\nGROUP BY combination_of_cld\nORDER BY combination_of_cld;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "Incidence of CLD arms",
+          "type": "barchart"
+        },
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "dXfltGBVk"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 98
+          },
+          "id": 13,
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "pluginVersion": "9.4.3",
+          "targets": [
+            {
+              "datasource": {
+                "type": "postgres",
+                "uid": "dXfltGBVk"
+              },
+              "editorMode": "code",
+              "format": "table",
+              "rawQuery": true,
+              "rawSql": "SELECT combination_of_cld, string_agg(id_op, ', ') as OP_which_use_cld_combination\nFROM (\n  SELECT \tid_op, string_agg(cld, ', ') as combination_of_cld\n  FROM (\n\t  SELECT id_op, cld\n  \tFROM (\n\t  \tSELECT id_op, cld\n\t\t  FROM instrument_measures_line_in_fov_of_op\n  \t\tINNER JOIN spectral_line\n\t  \tON instrument_measures_line_in_fov_of_op.wavelength_spectral_line = spectral_line.wavelength\n\t\t  GROUP BY cld, id_op\n  \t) t\n\t  GROUP BY id_op, cld\n  \tORDER BY id_op, cld\n  ) u \n  GROUP BY id_op\n) v\nWHERE $LeftCombinationOfCLD = '$RightCombinationOfCLD'\nGROUP BY combination_of_cld\nORDER BY combination_of_cld;",
+              "refId": "A",
+              "sql": {
+                "columns": [
+                  {
+                    "parameters": [],
+                    "type": "function"
+                  }
+                ],
+                "groupBy": [
+                  {
+                    "property": {
+                      "type": "string"
+                    },
+                    "type": "groupBy"
+                  }
+                ],
+                "limit": 50
+              }
+            }
+          ],
+          "title": "OP which USE the selected CLD combination",
+          "type": "table"
+        }
+      ],
+      "title": "Various (without assignment)",
+      "type": "row"
+    }
+  ],
+  "refresh": "",
+  "revision": 1,
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 2,
+        "label": "LeftCombinationOfCLD",
+        "name": "LeftCombinationOfCLD",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          }
+        ],
+        "query": "1",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 2,
+        "label": "RightCombinationOfCLD",
+        "name": "RightCombinationOfCLD",
+        "options": [
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          }
+        ],
+        "query": "1",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 2,
+        "label": "leftModuleUsage",
+        "name": "leftModuleUsage",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 2,
+        "label": "rightModuleUsage",
+        "name": "rightModuleUsage",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "--",
+          "value": "--"
+        },
+        "hide": 2,
+        "label": "comment",
+        "name": "comment",
+        "options": [
+          {
+            "selected": true,
+            "text": "--",
+            "value": "--"
+          }
+        ],
+        "query": "--",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "40x40",
+          "value": "40x40"
+        },
+        "hide": 2,
+        "label": "valueScope",
+        "name": "valueScope",
+        "options": [
+          {
+            "selected": true,
+            "text": "40x40",
+            "value": "40x40"
+          }
+        ],
+        "query": "40x40",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 2,
+        "label": "combinationOfInstruments",
+        "name": "combinationOfInstruments",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {},
+        "hide": 2,
+        "label": "leftCombinationOfInstruments",
+        "name": "leftCombinationOfInstruments",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {},
+        "hide": 2,
+        "label": "rightCombinationOfInstruments",
+        "name": "rightCombinationOfInstruments",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {},
+        "hide": 2,
+        "label": "leftSpectralLine",
+        "name": "leftSpectralLine",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 2,
+        "label": "rightSpectralLine",
+        "name": "rightSpectralLine",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {},
+        "hide": 2,
+        "label": "leftCLD",
+        "name": "leftCLD",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {},
+        "hide": 2,
+        "label": "rightCLD",
+        "name": "rightCLD",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 2,
+        "label": "valueFOV",
+        "name": "valueFOV",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 2,
+        "label": "operatorFOV",
+        "name": "operatorFOV",
+        "options": [
+          {
+            "selected": true,
+            "text": "",
+            "value": ""
+          }
+        ],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      }
+    ]
+  },
+  "time": {
+    "from": "2023-03-21T07:04:15.664Z",
+    "to": "2023-03-23T07:04:15.664Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "EST-DDBB",
+  "uid": "vIYXvIBVz",
+  "version": 249,
+  "weekStart": ""
+}

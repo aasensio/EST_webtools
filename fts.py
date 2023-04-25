@@ -26,7 +26,15 @@ class fts(object):
         # as emitted at solar surface
         # Or the new atlas exported by M. Collados allowing for going beyong in the IR spectrum, and expressed
         # in erg/s/(cm2sterAA)
-        self.datafile = DATAFILES[atlas]
+
+        try:
+            self.datafile = DATAFILES[atlas]
+        except FileNotFoundError:
+            print("Atlas", DATAFILES[1])
+        finally:
+            print("Atlas", DATAFILES[1])
+            atlas = 0
+            self.datafile = DATAFILES[0]
         t = readsav(self.datafile)
 
         if atlas == 0:

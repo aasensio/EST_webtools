@@ -15,7 +15,7 @@ class DatabasePhotoncount:
     def __init__(self, data):
         self.photoncount = Photocount()
         self.data = data
-        self.telescopeDiameter = 4.2
+        self.photoncount.D = 4.2 # telescope diameter in meters
     
     def get_arm_by_wavelength(self, wavelength):
         if (wavelength <= 430):
@@ -28,7 +28,7 @@ class DatabasePhotoncount:
 
     def compute_pxscale(self, wavelength):
         pxscale = wavelength * NM_TO_M
-        pxscale /= self.telescopeDiameter
+        pxscale /= self.photoncount.D
         pxscale *= RAD_TO_ARCSEC
         pxscale /= 2
         return pxscale
@@ -43,7 +43,9 @@ class DatabasePhotoncount:
             arm_value = 680
         else:
             arm_value = 1000
-        return (arm_value * NM_TO_M) / self.telescopeDiameter * RAD_TO_ARCSEC / 2
+
+        DL = (arm_value * NM_TO_M) / self.photoncount.D * RAD_TO_ARCSEC / 2
+        return DL
     
     def compute_pxfactor(self, wavelength, spacres):
         numerator = self.getDL_CLD(wavelength)

@@ -1,6 +1,7 @@
 from getDDBBdata import getDDBBdata
 from photoncount import Photocount
 from data_to_csv import toCSV
+from data_to_csv import toTransmissions
 import fts
 import sys
 import re
@@ -15,6 +16,7 @@ class DatabasePhotoncount:
     def __init__(self, data):
         self.photoncount = Photocount()
         self.data = data
+        self.transmissions = []
         self.photoncount.D = 4.2 # telescope diameter in meters
     
     def get_arm_by_wavelength(self, wavelength):
@@ -70,25 +72,28 @@ class DatabasePhotoncount:
     def compute_transmissions(self):
         for data in self.data: # if there is no bandpass, snr or integration time. Where wavelength > 1564 errors appear
             if (data[2] == "FBI" or data[4] is None or data[0] > 1564 or data[5] is None or data[6] is None):
-                data.append(None)
-                data.append('N/A')
+                self.transmissions.append([None, 'N/A', None, 'N/A'])
             else:
                 lmin = data[0] - (data[4] / 2)
                 lmax = data[0] + (data[4] / 2)
                 self.photoncount.R = data[3]
                 nflux = self.photoncount.compute_nflux(lmin, lmax)
+                min_nFlux = nflux.min()
                 max_nFlux = nflux.max()
+                min_nFlux = self.adjust_nflux(min_nFlux, data[0], data[3], data[6])
                 max_nFlux = self.adjust_nflux(max_nFlux, data[0], data[3], data[6])
                 
                 pxfactor = self.compute_pxfactor(data[0], data[1])
-                nphotons = self.compute_n_photons(max_nFlux, pxfactor, data[7])
-                transmission = data[5] ** 2 / nphotons
-                data.append(transmission)
-                data.append('')
+                nphotons_continuum = self.compute_n_photons(max_nFlux, pxfactor, data[7])
+                nphotons_core = self.compute_n_photons(min_nFlux, pxfactor, data[7])
+                transmission_continuum = data[5] ** 2 / nphotons_continuum
+                transmission_core = data[5] ** 2 / nphotons_core
+                self.transmissions.append([transmission_continuum, '', transmission_core, ''])
     
     def compute(self):
         self.compute_transmissions()
-        toCSV(self.data)
+        toTransmissions(self.transmissions)
+        toCSV(self.transmissions)
     
 if __name__ == "__main__":
     if (len(sys.argv) < 2 or len(sys.argv) > 3):

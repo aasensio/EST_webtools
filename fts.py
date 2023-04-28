@@ -27,7 +27,7 @@ class fts(object):
         # Or the new atlas exported by M. Collados allowing for going beyong in the IR spectrum, and expressed
         # in erg/s/(cm2sterAA)
         self.datafile = DATAFILES[atlas]
-        print(self.datafile)
+
         try:
             t = readsav(self.datafile)
         except FileNotFoundError:

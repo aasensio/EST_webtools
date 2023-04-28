@@ -1,5 +1,6 @@
 import os.path
 from scipy.io import readsav
+from pathlib import Path
 
 DATAFILES = [
     './fts_disk_center.idlsave',

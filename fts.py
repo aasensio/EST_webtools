@@ -1,4 +1,4 @@
-import numpy as np
+import os.path
 from scipy.io import readsav
 
 DATAFILES = [
@@ -26,15 +26,17 @@ class fts(object):
         # as emitted at solar surface
         # Or the new atlas exported by M. Collados allowing for going beyong in the IR spectrum, and expressed
         # in erg/s/(cm2sterAA)
-
+        self.datafile = DATAFILES[atlas]
+        print(self.datafile)
         try:
-            self.datafile = DATAFILES[atlas]
+            t = readsav(self.datafile)
         except FileNotFoundError:
-            print("Atlas", DATAFILES[1])
-        finally:
-            print("Atlas", DATAFILES[1])
+            print("Error Atlas not found", DATAFILES[1])
             atlas = 0
             self.datafile = DATAFILES[0]
+        finally:
+            print("Opening Atlas", DATAFILES[atlas])
+
         t = readsav(self.datafile)
 
         if atlas == 0:

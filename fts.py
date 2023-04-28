@@ -18,7 +18,7 @@ class fts(object):
         self.cc = None
         self.nu = None
 
-        self.datafile = './fts_disk_center.idlsave'
+        self.datafile = str
 
     def get_atlas(self, atlas=0):
 
@@ -31,11 +31,11 @@ class fts(object):
         try:
             t = readsav(self.datafile)
         except FileNotFoundError:
-            print("Error Atlas not found", DATAFILES[1])
+            print("Error Atlas File not found", DATAFILES[1])
             atlas = 0
             self.datafile = DATAFILES[0]
         finally:
-            print("Opening Atlas", DATAFILES[atlas])
+            print("Opening Atlas File", DATAFILES[atlas])
 
         t = readsav(self.datafile)
 

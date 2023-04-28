@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.io import readsav
+from pathlib import Path
 
 DATAFILES = [
     './fts_disk_center.idlsave',
@@ -29,13 +30,10 @@ class fts(object):
 
         try:
             self.datafile = DATAFILES[atlas]
+            t = readsav(self.datafile)
         except FileNotFoundError:
-            print("Atlas", DATAFILES[1])
-        finally:
-            print("Atlas", DATAFILES[1])
             atlas = 0
-            self.datafile = DATAFILES[0]
-        t = readsav(self.datafile)
+            print("File doesn't exists... Changin on file to: " + DATAFILES[atlas])        
 
         if atlas == 0:
             # convert to J s-1 m-2 m-1 sr-1

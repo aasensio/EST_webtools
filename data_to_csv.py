@@ -21,7 +21,7 @@ def toCSV(data, nameOfFile = "../data/data.csv"):
     df["T continuum comment"] = Tcontinuum_comment
     df["T core"] = Tcore
     df["T core comment"] = Tcore_comment
-    nameOfFile = nameOfFile[:-4] + "with_transmissions.csv"
+    nameOfFile = nameOfFile[:-4] + "_with_transmissions.csv"
     df.to_csv(nameOfFile, sep = ';', index = False)
     print("CSV file saved in path: " + nameOfFile)
 

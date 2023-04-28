@@ -1,4 +1,4 @@
-import numpy as np
+import os.path
 from scipy.io import readsav
 from pathlib import Path
 
@@ -19,7 +19,7 @@ class fts(object):
         self.cc = None
         self.nu = None
 
-        self.datafile = './fts_disk_center.idlsave'
+        self.datafile = str
 
     def get_atlas(self, atlas=0):
 
@@ -27,13 +27,18 @@ class fts(object):
         # as emitted at solar surface
         # Or the new atlas exported by M. Collados allowing for going beyong in the IR spectrum, and expressed
         # in erg/s/(cm2sterAA)
+        self.datafile = DATAFILES[atlas]
 
         try:
-            self.datafile = DATAFILES[atlas]
             t = readsav(self.datafile)
         except FileNotFoundError:
+            print("Error Atlas File not found", DATAFILES[1])
             atlas = 0
-            print("File doesn't exists... Changin on file to: " + DATAFILES[atlas])        
+            self.datafile = DATAFILES[0]
+        finally:
+            print("Opening Atlas File", DATAFILES[atlas])
+
+        t = readsav(self.datafile)
 
         if atlas == 0:
             # convert to J s-1 m-2 m-1 sr-1

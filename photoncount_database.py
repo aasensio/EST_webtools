@@ -71,9 +71,13 @@ class DatabasePhotoncount:
     
     def compute_transmissions(self):
         for data in self.data: # if there is no bandpass, snr or integration time. Where wavelength > 1564 errors appear
-            if (data[2] == "FBI" or data[4] is None or data[5] is None or data[6] is None):
+            #TODO: fixear wavelength si el archivo no se abre
+            if (data[2] == "FBI" or data[5] is None or data[6] is None):
                 self.transmissions.append([None, 'N/A', None, 'N/A'])
             else:
+                #FIXME: asigned bandpass = 1 if there is no bandpass
+                if (data[4] is None):
+                    data[4] = 1
                 lmin = data[0] - (data[4] / 2)
                 lmax = data[0] + (data[4] / 2)
                 self.photoncount.R = data[3]

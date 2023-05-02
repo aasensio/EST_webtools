@@ -403,11 +403,12 @@ class photongui():
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
         #TODO: If for the same wavelength something changes, then the file should not be ovewritten: what do you think?
+        #FIXME: Can you please create the files inside the new csv_data folder?
         if (os.path.exists(nameOfFile)):
             print('File already exists, overwriting...')
         else:
             print('Creating file ' + nameOfFile + '...')
-        with open(str(nameOfFile),'w') as nameOfFile:    
+        with open(str(nameOfFile), 'w') as nameOfFile:
             writer = csv.writer(nameOfFile, delimiter=',')
         # Create the header of the csv file
             writer.writerow(['TARGET WAVELENGTH: ' + self.cwl.get()])

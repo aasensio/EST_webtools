@@ -67,6 +67,22 @@ class photongui():
         self.rowcounter = 0
 
         self.init_gui()
+
+        #init dictionary:
+
+        self.properties_dict = {
+                'D' : self.D.get(), # telescope diameter
+                'lmin' : self.lmin,
+                'lmax' : self.lmax,
+                'polarimetry': self.polarimetry.get(),
+                'R' : self.R.get(), # spectral resolution
+                'T' : self.T.get(), # telescope transmission
+                'SN': self.SN.get(), # signal to noise ratio
+                'v' : self.v.get() * KM_TO_M, # m/s
+                'binning' : self.binning.get(), # spatial binning
+                'strehl': self.strehl.get()
+        }
+
         self.init_plot()
         self.redraw()
 
@@ -327,6 +343,9 @@ class photongui():
 
         self.set_spatres(self.lmin.get(), self.lmax.get())
         self.set_specres(self.lmin.get(), self.lmax.get())
+
+        #lmin lmax:
+        self.lmin, self.lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
 
     def quit(self):
         self.master.destroy()

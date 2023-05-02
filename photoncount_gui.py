@@ -378,28 +378,29 @@ class photongui():
         df = pd.DataFrame()
         wavelengths = []
         nflux = []
+        # Creation of df with data
         for i in range(len(xax)):
             wavelengths.append(round(xax[i], 5))
             nflux.append(int(self.ph.Ilambda[i]))
-        wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         df['wavelength'] = wavelengths
         df['nflux(W/m²/m/sr)'] = nflux
-        nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
-        #if (os.path.exists(nameOfFile)):
-        #    print('File already exists, overwriting...')
-        #else:
-        #    print('Creating file ' + nameOfFile + '...')
-        #df.to_csv(nameOfFile, index=False)
 
+        # Creation of csv file
+        wavelength = round(sum(wavelengths) / len(wavelengths), 2)
+        nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
+        if (os.path.exists(nameOfFile)):
+            print('File already exists, overwriting...')
+        else:
+            print('Creating file ' + nameOfFile + '...')
         with open(str(nameOfFile),'w') as nameOfFile:    
             writer = csv.writer(nameOfFile, delimiter=',')
-        # Gives the header name row into csv
+        # Create the header of the csv file
             writer.writerow(['TARGET WAVELENGTH: ' + self.cwl.get()])
             writer.writerow(['CWL shift: ' + self.cwls.get()])
             writer.writerow(['BP(nm): ' + self.bp.get()])
             writer.writerow(['Resolving Power (R): ' + self.R_entry.get()])
             writer.writerow(['wavelength(nm)', 'nflux(W/m²/m/sr)'])
-        #copy data from df and output to csv
+        # Copy data from df and output to csv
             for i in range(len(df)):
                 writer.writerow([df['wavelength'][i], df['nflux(W/m²/m/sr)'][i]])
 

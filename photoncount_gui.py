@@ -386,8 +386,10 @@ class photongui():
         self.plot()
 
     def exportSpectrum(self):
+        #TODO: Extend to the other curves with their corresponding headers.
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
+        #FIXME: I think you can simplify this with the tolist() method
         wavelengths = []
         nflux = []
         # Creation of df with data
@@ -396,8 +398,8 @@ class photongui():
             nflux.append(int(self.ph.Ilambda[i]))
         df['wavelength'] = wavelengths
         df['nflux(W/m^2/m/sr)'] = nflux
-
         # Creation of csv file
+        #FIXME: name of the file should be took in a simple way, i.e from target wavelength
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
         if (os.path.exists(nameOfFile)):

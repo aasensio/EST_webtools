@@ -383,7 +383,7 @@ class photongui():
             wavelengths.append(round(xax[i], 5))
             nflux.append(int(self.ph.Ilambda[i]))
         df['wavelength'] = wavelengths
-        df['nflux(W/m²/m/sr)'] = nflux
+        df['nflux(W/m^2/m/sr)'] = nflux
 
         # Creation of csv file
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)

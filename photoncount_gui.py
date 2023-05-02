@@ -69,19 +69,8 @@ class photongui():
         self.init_gui()
 
         #init dictionary:
-
-        self.properties_dict = {
-                'D' : self.D.get(), # telescope diameter
-                'lmin' : self.lmin,
-                'lmax' : self.lmax,
-                'polarimetry': self.polarimetry.get(),
-                'R' : self.R.get(), # spectral resolution
-                'T' : self.T.get(), # telescope transmission
-                'SN': self.SN.get(), # signal to noise ratio
-                'v' : self.v.get() * KM_TO_M, # m/s
-                'binning' : self.binning.get(), # spatial binning
-                'strehl': self.strehl.get()
-        }
+        self.properties_dict = dict
+        self.update_properties_dict()
 
         self.init_plot()
         self.redraw()
@@ -347,6 +336,20 @@ class photongui():
         #lmin lmax:
         self.lmin, self.lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
 
+    def update_properties_dict(self):
+        self.properties_dict = {
+                'D' : self.D.get(), # telescope diameter
+                'lmin' : self.lmin,
+                'lmax' : self.lmax,
+                'polarimetry': self.polarimetry.get(),
+                'R' : self.R.get(), # spectral resolution
+                'T' : self.T.get(), # telescope transmission
+                'SN': self.SN.get(), # signal to noise ratio
+                'v' : self.v.get() * KM_TO_M, # m/s
+                'binning' : self.binning.get(), # spatial binning
+                'strehl': self.strehl.get()
+        }
+
     def quit(self):
         self.master.destroy()
 
@@ -370,24 +373,14 @@ class photongui():
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get()*self.CLD.get())
 
         #aux variables
-        lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
-        # build dictionary
-        properties_dict = {}
-        properties_dict['D'] = self.D.get() # telescope diameter
-        properties_dict['lmin'] = lmin
-        properties_dict['lmax'] = lmax
-        properties_dict['polarimetry'] = self.polarimetry.get()
-        properties_dict['R'] = self.R.get() # spectral resolution
-        properties_dict['T'] = self.T.get() # telescope transmission
-        properties_dict['SN'] = self.SN.get() # signal to noise ration
-        properties_dict['v'] = self.v.get() * KM_TO_M # m/s
-        properties_dict['binning'] = self.binning.get() # spatial binning
-        properties_dict['strehl'] = self.strehl.get()
+        self.lmin, self.lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
+        # update of property dict
+        self.update_properties_dict()
 
-        self.ph.set_properties(properties_dict)
+        self.ph.set_properties(self.properties_dict)
         self.ph.compute()
-        self.set_spatres(lmin, lmax)
-        self.set_specres(lmin, lmax)
+        self.set_spatres(self.lmin, self.lmax)
+        self.set_specres(self.lmin, self.lmax)
 
         # plot
         self.plot()

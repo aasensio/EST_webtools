@@ -399,10 +399,10 @@ class photongui():
             writer.writerow(['CWL shift: ' + self.cwls.get()])
             writer.writerow(['BP(nm): ' + self.bp.get()])
             writer.writerow(['Resolving Power (R): ' + self.R_entry.get()])
-            writer.writerow(['wavelength(nm)', 'nflux(W/m²/m/sr)'])
+            writer.writerow(['wavelength(nm)', 'nflux(W/m^2/m/sr)'])
         # Copy data from df and output to csv
             for i in range(len(df)):
-                writer.writerow([df['wavelength'][i], df['nflux(W/m²/m/sr)'][i]])
+                writer.writerow([df['wavelength'][i], df['nflux(W/m^2/m/sr)'][i]])
 
 
     def plot(self):

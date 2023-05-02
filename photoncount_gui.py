@@ -10,6 +10,8 @@ else:
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import photoncount
+import pandas as pd
+import os
 
 ######################################################################
 ### CONSTANTS
@@ -148,12 +150,14 @@ class photongui():
 
     def wavelength_widget(self):
         self.wavelength_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
-        #FIXME: This should take into account whether the full atlas from fts.py has been imported or not, meaning that
-        #wavelengths > 1000 nm should not be available if baseline atlas fts_disk_center.idelsave is the only atlas available.
-        self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values=[('Ca II K', 393.33), ('H I beta', 486.10),
-            ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
-            ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
-            ('Fe I @851', 851.40), ('Ca II @854', 854.2), ('He I', 1083.0), ('Fe I IR', 1564.8)])
+        values = [('Ca II K', 393.33), ('H I beta', 486.10), ('Mg I b', 517.30), ('Fe I @525', 525.0),
+            ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00), ('Fe I @630', 630.2),
+            ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
+            ('Fe I @851', 851.40), ('Ca II @854', 854.2)]
+        if (self.ph.file == 1):
+            values.append(('He I', 1083.0))
+            values.append(('Fe I IR', 1564.8))
+        self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values = values)
         self.bp = Tk.Spinbox(self.wavelength_frame, from_=0, to=10, increment=0.02, width=5, textvariable=self.bandpass,
                              command=self.redraw, font=("Helvetica", 15))
         self.cwls = Tk.Spinbox(self.wavelength_frame, from_=-1000, to=1000, increment=0.01, width=5,
@@ -261,6 +265,11 @@ class photongui():
         self.pixel_frame.grid(row=self.rowcounter, column=0, sticky='w')
         self.rowcounter += 1
 
+        # export button
+        export_button = Tk.Button(self.master, text="Export CSV", command=self.exportCSV, font=("Helvetica", 18))
+        export_button.grid(row=self.rowcounter, column=0, sticky='ew')
+        self.rowcounter += 1
+
         # quit button
         quit_button = Tk.Button(self.master, text="Quit", command=self.quit, font=("Helvetica", 18))
         quit_button.grid(row=self.rowcounter, column=0, sticky='ew')
@@ -362,6 +371,25 @@ class photongui():
 
         # plot
         self.plot()
+
+    def exportCSV(self):
+        xax = self.ph.ll * M_TO_NM
+        df = pd.DataFrame()
+        wavelengths = []
+        nflux = []
+        for i in range(len(xax)):
+            wavelengths.append(xax[i])
+            nflux.append(self.ph.Ilambda[i])
+        wavelength = round(sum(wavelengths) / len(wavelengths), 2)
+        df['wavelength'] = wavelengths
+        df['nflux'] = nflux
+        nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
+        if (os.path.exists(nameOfFile)):
+            print('File already exists, overwriting...')
+        else:
+            print('Creating file ' + nameOfFile + '...')
+        df.to_csv(nameOfFile, index=False)
+
 
     def plot(self):
         xax = self.ph.ll * M_TO_NM

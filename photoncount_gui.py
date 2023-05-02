@@ -402,6 +402,7 @@ class photongui():
         #FIXME: name of the file should be took in a simple way, i.e from target wavelength
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
+        #TODO: If for the same wavelength something changes, then the file should not be ovewritten: what do you think?
         if (os.path.exists(nameOfFile)):
             print('File already exists, overwriting...')
         else:

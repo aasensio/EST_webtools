@@ -12,6 +12,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import photoncount
 import pandas as pd
 import os
+import csv
 
 ######################################################################
 ### CONSTANTS
@@ -127,10 +128,10 @@ class photongui():
         #Resolving Power
         Tk.Label(self.performance_frame, text='Resolving Power (R):', font=("Helvetica", 16)).grid(
             row=2, column=0, sticky='w')
-        R_entry = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1, width=FWIDTH,
+        self.R_entry = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1, width=FWIDTH,
                              textvariable=self.R, command=self.redraw, font=("Helvetica", 16))
-        R_entry.grid(row=2, column=1, sticky='w')
-        R_entry.bind('<Return>', self.redraw_from_event)
+        self.R_entry.grid(row=2, column=1, sticky='w')
+        self.R_entry.bind('<Return>', self.redraw_from_event)
 
         #Speed evolution
         Tk.Label(self.performance_frame, text='Evolution speed (km/s):', font=("Helvetica", 16)).grid(
@@ -266,7 +267,7 @@ class photongui():
         self.rowcounter += 1
 
         # export button
-        export_button = Tk.Button(self.master, text="Export CSV", command=self.exportCSV, font=("Helvetica", 18))
+        export_button = Tk.Button(self.master, text="Export spectrum", command=self.exportSpectrum, font=("Helvetica", 18))
         export_button.grid(row=self.rowcounter, column=0, sticky='ew')
         self.rowcounter += 1
 
@@ -372,23 +373,35 @@ class photongui():
         # plot
         self.plot()
 
-    def exportCSV(self):
+    def exportSpectrum(self):
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
         wavelengths = []
         nflux = []
         for i in range(len(xax)):
-            wavelengths.append(xax[i])
-            nflux.append(self.ph.Ilambda[i])
+            wavelengths.append(round(xax[i], 5))
+            nflux.append(int(self.ph.Ilambda[i]))
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         df['wavelength'] = wavelengths
-        df['nflux'] = nflux
+        df['nflux(W/m²/m/sr)'] = nflux
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
-        if (os.path.exists(nameOfFile)):
-            print('File already exists, overwriting...')
-        else:
-            print('Creating file ' + nameOfFile + '...')
-        df.to_csv(nameOfFile, index=False)
+        #if (os.path.exists(nameOfFile)):
+        #    print('File already exists, overwriting...')
+        #else:
+        #    print('Creating file ' + nameOfFile + '...')
+        #df.to_csv(nameOfFile, index=False)
+
+        with open(str(nameOfFile),'w') as nameOfFile:    
+            writer = csv.writer(nameOfFile, delimiter=',')
+        # Gives the header name row into csv
+            writer.writerow(['TARGET WAVELENGTH: ' + self.cwl.get()])
+            writer.writerow(['CWL shift: ' + self.cwls.get()])
+            writer.writerow(['BP(nm): ' + self.bp.get()])
+            writer.writerow(['Resolving Power (R): ' + self.R_entry.get()])
+            writer.writerow(['wavelength(nm)', 'nflux(W/m²/m/sr)'])
+        #copy data from df and output to csv
+            for i in range(len(df)):
+                writer.writerow([df['wavelength'][i], df['nflux(W/m²/m/sr)'][i]])
 
 
     def plot(self):

@@ -11,6 +11,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import photoncount
 import pandas as pd
+import os
 
 ######################################################################
 ### CONSTANTS
@@ -383,7 +384,12 @@ class photongui():
         df['wavelength'] = wavelengths
         df['nflux'] = nflux
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
+        if (os.path.exists(nameOfFile)):
+            print('File already exists, overwriting...')
+        else:
+            print('Creating file ' + nameOfFile + '...')
         df.to_csv(nameOfFile, index=False)
+
 
     def plot(self):
         xax = self.ph.ll * M_TO_NM

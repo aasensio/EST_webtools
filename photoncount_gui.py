@@ -148,12 +148,16 @@ class photongui():
 
     def wavelength_widget(self):
         self.wavelength_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
-        #FIXME: This should take into account whether the full atlas from fts.py has been imported or not, meaning that
-        #wavelengths > 1000 nm should not be available if baseline atlas fts_disk_center.idelsave is the only atlas available.
-        self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values=[('Ca II K', 393.33), ('H I beta', 486.10),
+        if (self.ph.file == 1):
+            self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values=[('Ca II K', 393.33), ('H I beta', 486.10),
             ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
             ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
             ('Fe I @851', 851.40), ('Ca II @854', 854.2), ('He I', 1083.0), ('Fe I IR', 1564.8)])
+        else:
+            self.cwl = Tk.ttk.Combobox(self.wavelength_frame, values=[('Ca II K', 393.33), ('H I beta', 486.10),
+            ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00),
+            ('Fe I @630', 630.2), ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
+            ('Fe I @851', 851.40), ('Ca II @854', 854.2)])
         self.bp = Tk.Spinbox(self.wavelength_frame, from_=0, to=10, increment=0.02, width=5, textvariable=self.bandpass,
                              command=self.redraw, font=("Helvetica", 15))
         self.cwls = Tk.Spinbox(self.wavelength_frame, from_=-1000, to=1000, increment=0.01, width=5,

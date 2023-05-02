@@ -28,6 +28,7 @@ class Photocount(object):
 
         self.atlas = fts.fts()
         self.atlas.get_atlas(atlas=1)
+        self.file = self.atlas.atlas
         self.al, self.at = self.get_atmostrans()
 
         self.D = 4.0

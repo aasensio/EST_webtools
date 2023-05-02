@@ -22,25 +22,25 @@ class fts(object):
         self.datafile = str
 
     def get_atlas(self, atlas=0):
-
+        self.atlas = atlas
         # The atlas parameter defines if the reference atlas is the original from J. Leenarts, expressed in watt/(cm2 ster AA)
         # as emitted at solar surface
         # Or the new atlas exported by M. Collados allowing for going beyong in the IR spectrum, and expressed
         # in erg/s/(cm2sterAA)
-        self.datafile = DATAFILES[atlas]
+        self.datafile = DATAFILES[self.atlas]
 
         try:
             t = readsav(self.datafile)
         except FileNotFoundError:
             print("Error Atlas File not found", DATAFILES[1])
-            atlas = 0
+            self.atlas = 0
             self.datafile = DATAFILES[0]
         finally:
-            print("Opening Atlas File", DATAFILES[atlas])
+            print("Opening Atlas File", DATAFILES[self.atlas])
 
         t = readsav(self.datafile)
 
-        if atlas == 0:
+        if self.atlas == 0:
             # convert to J s-1 m-2 m-1 sr-1
             self.ll = t['ftswav'] * AA_TO_M
             self.nu = CLIGHT / self.ll

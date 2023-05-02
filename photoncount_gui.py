@@ -436,7 +436,7 @@ class photongui():
 
         ax = self.axes[1]
         ax.plot(xax, self.ph.dx)
-        ax.set_xlim(self.ph.ran )
+        ax.set_xlim(self.ph.ran)
         ax.get_xaxis().set_ticklabels([])
         ax.set_ylabel(r'$\Delta x$ [arcsec]')
         ax.set_title('optimal pixel size for given signal speed')

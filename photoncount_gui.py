@@ -67,6 +67,11 @@ class photongui():
         self.rowcounter = 0
 
         self.init_gui()
+
+        #init dictionary:
+        self.properties_dict = dict
+        self.update_properties_dict()
+
         self.init_plot()
         self.redraw()
 
@@ -328,6 +333,23 @@ class photongui():
         self.set_spatres(self.lmin.get(), self.lmax.get())
         self.set_specres(self.lmin.get(), self.lmax.get())
 
+        #lmin lmax:
+        self.lmin, self.lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
+
+    def update_properties_dict(self):
+        self.properties_dict = {
+                'D' : self.D.get(), # telescope diameter
+                'lmin' : self.lmin,
+                'lmax' : self.lmax,
+                'polarimetry': self.polarimetry.get(),
+                'R' : self.R.get(), # spectral resolution
+                'T' : self.T.get(), # telescope transmission
+                'SN': self.SN.get(), # signal to noise ratio
+                'v' : self.v.get() * KM_TO_M, # m/s
+                'binning' : self.binning.get(), # spatial binning
+                'strehl': self.strehl.get()
+        }
+
     def quit(self):
         self.master.destroy()
 
@@ -351,31 +373,23 @@ class photongui():
         self.T.set(self.T_T.get()*self.T_I.get()*self.QE.get()*self.CLD.get())
 
         #aux variables
-        lmin, lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
-        # build dictionary
-        properties_dict = {}
-        properties_dict['D'] = self.D.get() # telescope diameter
-        properties_dict['lmin'] = lmin
-        properties_dict['lmax'] = lmax
-        properties_dict['polarimetry'] = self.polarimetry.get()
-        properties_dict['R'] = self.R.get() # spectral resolution
-        properties_dict['T'] = self.T.get() # telescope transmission
-        properties_dict['SN'] = self.SN.get() # signal to noise ration
-        properties_dict['v'] = self.v.get() * KM_TO_M # m/s
-        properties_dict['binning'] = self.binning.get() # spatial binning
-        properties_dict['strehl'] = self.strehl.get()
+        self.lmin, self.lmax = cwl-(self.bandpass.get())/2.0, cwl+(self.bandpass.get())/2.0
+        # update of property dict
+        self.update_properties_dict()
 
-        self.ph.set_properties(properties_dict)
+        self.ph.set_properties(self.properties_dict)
         self.ph.compute()
-        self.set_spatres(lmin, lmax)
-        self.set_specres(lmin, lmax)
+        self.set_spatres(self.lmin, self.lmax)
+        self.set_specres(self.lmin, self.lmax)
 
         # plot
         self.plot()
 
     def exportSpectrum(self):
+        #TODO: Extend to the other curves with their corresponding headers.
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
+        #FIXME: I think you can simplify this with the tolist() method
         wavelengths = []
         nflux = []
         # Creation of df with data
@@ -383,26 +397,28 @@ class photongui():
             wavelengths.append(round(xax[i], 5))
             nflux.append(int(self.ph.Ilambda[i]))
         df['wavelength'] = wavelengths
-        df['nflux(W/m²/m/sr)'] = nflux
-
+        df['nflux(W/m^2/m/sr)'] = nflux
         # Creation of csv file
+        #FIXME: name of the file should be took in a simple way, i.e from target wavelength
         wavelength = round(sum(wavelengths) / len(wavelengths), 2)
         nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
+        #TODO: If for the same wavelength something changes, then the file should not be ovewritten: what do you think?
+        #FIXME: Can you please create the files inside the new csv_data folder?
         if (os.path.exists(nameOfFile)):
             print('File already exists, overwriting...')
         else:
             print('Creating file ' + nameOfFile + '...')
-        with open(str(nameOfFile),'w') as nameOfFile:    
+        with open(str(nameOfFile), 'w') as nameOfFile:
             writer = csv.writer(nameOfFile, delimiter=',')
         # Create the header of the csv file
             writer.writerow(['TARGET WAVELENGTH: ' + self.cwl.get()])
             writer.writerow(['CWL shift: ' + self.cwls.get()])
             writer.writerow(['BP(nm): ' + self.bp.get()])
             writer.writerow(['Resolving Power (R): ' + self.R_entry.get()])
-            writer.writerow(['wavelength(nm)', 'nflux(W/m²/m/sr)'])
+            writer.writerow(['wavelength(nm)', 'nflux(W/m^2/m/sr)'])
         # Copy data from df and output to csv
             for i in range(len(df)):
-                writer.writerow([df['wavelength'][i], df['nflux(W/m²/m/sr)'][i]])
+                writer.writerow([df['wavelength'][i], df['nflux(W/m^2/m/sr)'][i]])
 
 
     def plot(self):
@@ -424,7 +440,7 @@ class photongui():
 
         ax = self.axes[1]
         ax.plot(xax, self.ph.dx)
-        ax.set_xlim(self.ph.ran )
+        ax.set_xlim(self.ph.ran)
         ax.get_xaxis().set_ticklabels([])
         ax.set_ylabel(r'$\Delta x$ [arcsec]')
         ax.set_title('optimal pixel size for given signal speed')

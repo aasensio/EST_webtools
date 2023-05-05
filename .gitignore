@@ -130,4 +130,4 @@ dmypy.json
 
 ftscnt_full.sav
 
-spectrum_*.csv
+/csv_data/

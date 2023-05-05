@@ -88,35 +88,35 @@ class photongui():
         #T_widget.bind('<Return>', self.redraw_from_event)
         T_widget.grid(row=0, column=1, sticky='w')
 
-        T_T_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02, width=5, textvariable=self.T_T,
+        self.T_T_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02, width=5, textvariable=self.T_T,
                                 command=self.redraw, font=("Helvetica", 15))
-        T_I_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02,width=5, textvariable=self.T_I,
+        self.T_I_widget = Tk.Spinbox(self.throughput_frame, from_=0.2, to=1.0, increment=0.02,width=5, textvariable=self.T_I,
                                 command=self.redraw, font=("Helvetica", 15))
-        QE_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
+        self.QE_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
                                command=self.redraw, width=5, textvariable=self.QE, font=("Helvetica", 15))
 
-        CLD_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
+        self.CLD_widget = Tk.Spinbox(self.throughput_frame, from_=0.02, to=1.0, increment=0.02,
                                command=self.redraw, width=5, textvariable=self.CLD, font=("Helvetica", 15))
 
         Tk.Label(self.throughput_frame, text='Telescope:', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
-        T_T_widget.grid(row=1, column=1)
-        T_T_widget.bind('<Return>', self.redraw_from_event)
+        self.T_T_widget.grid(row=1, column=1)
+        self.T_T_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='Instrument:', font=("Helvetica", 15)).grid(
             row=1, column=2, sticky='w')
-        T_I_widget.grid(row=1, column=3, sticky='w')
-        T_I_widget.bind('<Return>', self.redraw_from_event)
+        self.T_I_widget.grid(row=1, column=3, sticky='w')
+        self.T_I_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='QE:', font=("Helvetica", 15)).grid(
             row=1, column=4, sticky='w')
-        QE_widget.grid(row=1, column=5, sticky='w')
-        QE_widget.bind('<Return>', self.redraw_from_event)
+        self.QE_widget.grid(row=1, column=5, sticky='w')
+        self.QE_widget.bind('<Return>', self.redraw_from_event)
 
         Tk.Label(self.throughput_frame, text='CLD Focal station:', font=("Helvetica", 15)).grid(
             row=1, column=6, sticky='w')
-        CLD_widget.grid(row=1, column=7, sticky='w')
-        CLD_widget.bind('<Return>', self.redraw_from_event)
+        self.CLD_widget.grid(row=1, column=7, sticky='w')
+        self.CLD_widget.bind('<Return>', self.redraw_from_event)
 
     def performance_widget(self):
         self.performance_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
@@ -125,10 +125,10 @@ class photongui():
         # S/N
         Tk.Label(self.performance_frame, text='Desired S/N:', font=("Helvetica", 16)).grid(
             row=1, column=0, sticky='w')
-        SN_widget = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1,
+        self.SN_widget = Tk.Spinbox(self.performance_frame, from_=1, to=1000000, increment=1,
                              width=FWIDTH, textvariable=self.SN, command=self.redraw, font=("Helvetica", 16))
-        SN_widget.bind('<Return>', self.redraw_from_event)
-        SN_widget.grid(row=1, column=1, sticky='w')
+        self.SN_widget.bind('<Return>', self.redraw_from_event)
+        self.SN_widget.grid(row=1, column=1, sticky='w')
 
         #Resolving Power
         Tk.Label(self.performance_frame, text='Resolving Power (R):', font=("Helvetica", 16)).grid(
@@ -141,10 +141,10 @@ class photongui():
         #Speed evolution
         Tk.Label(self.performance_frame, text='Evolution speed (km/s):', font=("Helvetica", 16)).grid(
             row=3, column=0, sticky='w')
-        v_entry = Tk.Spinbox(self.performance_frame,  from_=0, to=1000, increment=0.1,
+        self.v_entry = Tk.Spinbox(self.performance_frame,  from_=0, to=1000, increment=0.1,
                              width=FWIDTH, textvariable=self.v, command=self.redraw, font=("Helvetica", 16))
-        v_entry.bind('<Return>', self.redraw_from_event)
-        v_entry.grid(row=3, column=1, sticky='w')
+        self.v_entry.bind('<Return>', self.redraw_from_event)
+        self.v_entry.grid(row=3, column=1, sticky='w')
 
         # polarimetry radio button
         Tk.Label(self.performance_frame, text='Polarimetry:', font=("Helvetica", 16)).grid(
@@ -204,11 +204,11 @@ class photongui():
         # resulting spatial resolution
         Tk.Label(self.pixel_frame, text='Spatial pixel sampling (arcsec)', font=("Helvetica", 15)).grid(
             row=2, column=0, sticky='w')
-        resmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmin, font=("Helvetica", 15))
-        resmin_entry.grid(row=2, column=1, sticky='w')
+        self.resmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmin, font=("Helvetica", 15))
+        self.resmin_entry.grid(row=2, column=1, sticky='w')
         Tk.Label(self.pixel_frame, text='-', font=("Helvetica", 15)).grid(row=2, column=2, sticky='w')
-        resmax_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmax, font=("Helvetica", 15))
-        resmax_entry.grid(row=2, column=3, sticky='w')
+        self.resmax_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.resmax, font=("Helvetica", 15))
+        self.resmax_entry.grid(row=2, column=3, sticky='w')
         self.pixel_frame.grid_columnconfigure(2, weight=1)
         self.pixel_frame.grid_rowconfigure(2, weight=1)
         self.pixel_frame.grid_columnconfigure(3, weight=1)
@@ -217,11 +217,11 @@ class photongui():
         # resulting spectral resolution
         Tk.Label(self.pixel_frame, text='Spectral pixel sampling (pm)', font=("Helvetica", 15)).grid(
             row=3, column=0, sticky='w')
-        spresmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 15))
-        spresmin_entry.grid(row=3, column=1, sticky='w')
+        self.spresmin_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.spresmin, font=("Helvetica", 15))
+        self.spresmin_entry.grid(row=3, column=1, sticky='w')
         Tk.Label(self.pixel_frame, text='-', font=("Helvetica", 15)).grid(row=3, column=2, sticky='w')
-        spresmax_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.spresmax, font=("Helvetica", 15))
-        spresmax_entry.grid(row=3, column=3, sticky='w')
+        self.spresmax_entry = Tk.Entry(self.pixel_frame, width=FWIDTH, textvariable=self.spresmax, font=("Helvetica", 15))
+        self.spresmax_entry.grid(row=3, column=3, sticky='w')
 
     def telescope_widget(self):
         self.telescope_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
@@ -230,14 +230,14 @@ class photongui():
             row=0, column=0, sticky='w')
         Tk.Label(self.telescope_frame, text='Aperture diameter (m):', font=("Helvetica", 15)).grid(
             row=1, column=0, sticky='w')
-        D_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.D, font=("Helvetica", 15))
-        D_widget.bind('<Return>', self.redraw_from_event)
-        D_widget.grid(row=1, column=1, sticky='w')
+        self.D_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.D, font=("Helvetica", 15))
+        self.D_widget.bind('<Return>', self.redraw_from_event)
+        self.D_widget.grid(row=1, column=1, sticky='w')
 
         Tk.Label(self.telescope_frame, text='Strehl:', font=("Helvetica", 15)).grid(
             row=2, column=0, sticky='w')
-        strehl_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.strehl, font=("Helvetica", 15))
-        strehl_widget.grid(row=2, column=1, sticky='w')
+        self.strehl_widget = Tk.Entry(self.telescope_frame, width=FWIDTH, textvariable=self.strehl, font=("Helvetica", 15))
+        self.strehl_widget.grid(row=2, column=1, sticky='w')
 
     def init_widgets(self):
         self.title_widget()
@@ -272,7 +272,7 @@ class photongui():
         self.rowcounter += 1
 
         # export button
-        export_button = Tk.Button(self.master, text="Export spectrum", command=self.exportSpectrum, font=("Helvetica", 18))
+        export_button = Tk.Button(self.master, text="Export graphs", command=self.exportGraphs, font=("Helvetica", 18))
         export_button.grid(row=self.rowcounter, column=0, sticky='ew')
         self.rowcounter += 1
 
@@ -385,40 +385,82 @@ class photongui():
         # plot
         self.plot()
 
-    def exportSpectrum(self):
-        #TODO: Extend to the other curves with their corresponding headers.
+    def exportGraphs(self):
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
         #FIXME: I think you can simplify this with the tolist() method
+        # No, as I modify the values with round() and int(), I need to select values one by one
         wavelengths = []
         nflux = []
+        dx = []
+        intTime = []
+        optimalIntTime = []
         # Creation of df with data
         for i in range(len(xax)):
             wavelengths.append(round(xax[i], 5))
             nflux.append(int(self.ph.Ilambda[i]))
+            dx.append(round(self.ph.dx[i], 2))
+            intTime.append(round(self.ph.t[i], 2))
+            optimalIntTime.append(round(self.ph.dt[i], 2))
         df['wavelength'] = wavelengths
-        df['nflux(W/m^2/m/sr)'] = nflux
+        df['nflux'] = nflux
+        df['dx'] = dx
+        df['int_time'] = intTime
+        df['optimal_int_time'] = optimalIntTime
         # Creation of csv file
-        #FIXME: name of the file should be took in a simple way, i.e from target wavelength
-        wavelength = round(sum(wavelengths) / len(wavelengths), 2)
-        nameOfFile = 'spectrum_' + str(wavelength) + '.csv'
-        #TODO: If for the same wavelength something changes, then the file should not be ovewritten: what do you think?
-        #FIXME: Can you please create the files inside the new csv_data folder?
-        if (os.path.exists(nameOfFile)):
-            print('File already exists, overwriting...')
-        else:
-            print('Creating file ' + nameOfFile + '...')
+        nameOfFile = self.openFile()
+        if nameOfFile is None or nameOfFile == '':
+            return
         with open(str(nameOfFile), 'w') as nameOfFile:
-            writer = csv.writer(nameOfFile, delimiter=',')
+            writer = csv.writer(nameOfFile, delimiter=';')
         # Create the header of the csv file
+            writer.writerow(['Telescope Diameter: ' + self.D_widget.get()])
+            writer.writerow(['Telescope Sthrel: ' + self.strehl_widget.get()])
             writer.writerow(['TARGET WAVELENGTH: ' + self.cwl.get()])
             writer.writerow(['CWL shift: ' + self.cwls.get()])
             writer.writerow(['BP(nm): ' + self.bp.get()])
+            writer.writerow(['TELESCOPE: ' + self.T_T_widget.get()])
+            writer.writerow(['INSTRUMENT: ' + self.T_I_widget.get()])
+            writer.writerow(['QE: ' + self.QE_widget.get()])
+            writer.writerow(['CLD FOCAL STATION: ' + self.CLD_widget.get()])
+            writer.writerow(['Desired S/N: ' + self.SN_widget.get()])
             writer.writerow(['Resolving Power (R): ' + self.R_entry.get()])
-            writer.writerow(['wavelength(nm)', 'nflux(W/m^2/m/sr)'])
+            writer.writerow(['Evolution Speed(km/h): ' + self.v_entry.get()])
+            if (self.polarimetry.get() == 1):
+                writer.writerow(['POLARIMETRY: ' + 'Yes'])
+            else:
+                writer.writerow(['POLARIMETRY: ' + 'No'])
+            writer.writerow(['Spatial Binning: ' + str(self.binning.get())])
+            writer.writerow(['Minimal spatial pixel sampling (arcsec): ' + self.resmin_entry.get()])
+            writer.writerow(['Maximal spatial pixel sampling (arcsec): ' + self.resmax_entry.get()])
+            writer.writerow(['Minimal spectral pixel sampling (pm): ' + self.spresmin_entry.get()])
+            writer.writerow(['Maximal spectral pixel sampling (pm): ' + self.spresmax_entry.get()])
+            writer.writerow(['wavelength(nm)', 'nflux(W/m^2/m/sr)', 'dx(arcsec)', 'int_time(s)', 'optimal_int_time(s)'])
         # Copy data from df and output to csv
             for i in range(len(df)):
-                writer.writerow([df['wavelength'][i], df['nflux(W/m^2/m/sr)'][i]])
+                writer.writerow([
+                    df['wavelength'][i],
+                    df['nflux'][i],
+                    df['dx'][i],
+                    df['int_time'][i],
+                    df['optimal_int_time'][i]])
+
+    def openFile(self):
+        route = './csv_data/'
+        if not os.path.exists(route):
+            os.makedirs(route)
+        nameOfFile = route + str(self.cwl.get().split(' ')[len(self.cwl.get().split(' ')) - 1]) + '_graphs.csv'
+        if (os.path.exists(nameOfFile)):
+            answer = tkinter.messagebox.askyesno(
+                message="The file will be deleted! Are you sure you want to overwrite it?",
+                title="overwrite?")
+            if answer is False:
+                print('File not overwritten')
+                return
+            print('File already exists, overwriting...')
+        else:
+            print('Creating file ' + nameOfFile + '...')
+        return nameOfFile
 
 
     def plot(self):

@@ -388,8 +388,6 @@ class photongui():
     def exportGraphs(self):
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
-        #FIXME: I think you can simplify this with the tolist() method
-        # No, as I modify the values with round() and int(), I need to select values one by one
         wavelengths = []
         nflux = []
         dx = []

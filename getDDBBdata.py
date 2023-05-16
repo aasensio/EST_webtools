@@ -13,7 +13,7 @@ def getDDBBdata(nameOfFile = "./measures.csv"):
                      keep_default_na = True,
                      na_values = 'NA',
                      header = 0,
-                     dtype = {'SNR': "Int64", 'R': "Int64", "BP (nm)": "Float64", "tint (s)": "Float64"},
+                     dtype = {'Wavelength (nm)': "Float64", 'SNR': "Int64", 'R': "Int64", "BP (nm)": "Float64", "tint (s)": "Float64"},
                      encoding='latin-1')
 
     df_transmissions = df[["Wavelength (nm)", "required d (\")", "SIS Instrument", "R", "BP (nm)", "SNR", "tint (s)", "Polarimetry"]]

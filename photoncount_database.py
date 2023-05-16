@@ -95,7 +95,7 @@ class DatabasePhotoncount:
     def compute(self):
         self.compute_transmissions()
         toTransmissions(self.transmissions)
-        toCSV(self.transmissions)
+        toCSV(self.transmissions, sys.argv[1])
     
 if __name__ == "__main__":
     if (len(sys.argv) < 2 or len(sys.argv) > 3):

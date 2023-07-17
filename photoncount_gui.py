@@ -388,19 +388,17 @@ class photongui():
     def exportGraphs(self):
         xax = self.ph.ll * M_TO_NM
         df = pd.DataFrame()
-        wavelengths = []
-        nflux = []
-        dx = []
-        intTime = []
-        optimalIntTime = []
+        wavelengths = xax[1:-1].round(5)
+        Ilambda = self.ph.Ilambda[:-2]
+        lmin = xax[0]
+        lmax = xax[len(Ilambda)]
+        nflux = self.ph.compute_nflux(lmin, lmax)
+        dx = self.ph.dx[1:-1].round(2)
+        intTime = self.ph.t[1:-1].round(2)
+        optimalIntTime = self.ph.dt[1:-1].round(2)
         # Creation of df with data
-        for i in range(len(xax)):
-            wavelengths.append(round(xax[i], 5))
-            nflux.append(int(self.ph.Ilambda[i]))
-            dx.append(round(self.ph.dx[i], 2))
-            intTime.append(round(self.ph.t[i], 2))
-            optimalIntTime.append(round(self.ph.dt[i], 2))
         df['wavelength'] = wavelengths
+        df['Ilambda'] = Ilambda
         df['nflux'] = nflux
         df['dx'] = dx
         df['int_time'] = intTime
@@ -433,11 +431,12 @@ class photongui():
             writer.writerow(['Maximal spatial pixel sampling (arcsec): ' + self.resmax_entry.get()])
             writer.writerow(['Minimal spectral pixel sampling (pm): ' + self.spresmin_entry.get()])
             writer.writerow(['Maximal spectral pixel sampling (pm): ' + self.spresmax_entry.get()])
-            writer.writerow(['wavelength(nm)', 'nflux(W/m^2/m/sr)', 'dx(arcsec)', 'int_time(s)', 'optimal_int_time(s)'])
+            writer.writerow(['wavelength(nm)', 'Ilambda(W/m^2/m/sr)', 'nflux','dx(arcsec)', 'int_time(s)', 'optimal_int_time(s)'])
         # Copy data from df and output to csv
             for i in range(len(df)):
                 writer.writerow([
                     df['wavelength'][i],
+                    df['Ilambda'][i],
                     df['nflux'][i],
                     df['dx'][i],
                     df['int_time'][i],
@@ -455,7 +454,7 @@ class photongui():
             if answer is False:
                 print('File not overwritten')
                 return
-            print('File already exists, overwriting...')
+            print('File already exists,' + nameOfFile + ' overwriting...')
         else:
             print('Creating file ' + nameOfFile + '...')
         return nameOfFile

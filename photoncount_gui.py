@@ -156,10 +156,11 @@ class photongui():
 
     def wavelength_widget(self):
         self.wavelength_frame = tkinter.Frame(self.master, bd=1, padx=4, pady=4, relief="sunken")
-        values = [('Ca II K', 393.33), ('H I beta', 486.10), ('Mg I b', 517.30), ('Fe I @525', 525.0),
-            ('Fe I @543', 543.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00), ('Fe I @630', 630.2),
-            ('H I alpha', 656.3), ('K I @769', 769.9), ('Fe I@846', 846.80), ('CaII @849', 849.80),
-            ('Fe I @851', 851.40), ('Ca II @854', 854.2)]
+        values = [('Ca II K', 393.33), ('Ca I@423', 423.0), ('G band', 430.0),('Ba II', 455.0), ('Sr I @461', 461.0),
+                  ('H I beta', 486.10),('Fe II @492', 492.0), ('Mg I b', 517.30), ('Fe I @525', 525.0), ('Fe I @543', 543.0),
+                  ('Fe I D @557', 557.0), ('He I D3 @587', 587.0), ('Na I D @589', 589.60), ('Na I D @590', 590.00), ('FeI @617', 617.3),
+                  ('Fe I @630', 630.2),('H I alpha', 656.3), ('Fe I @709', 709.0), ('K I @769', 769.9), ('Fe I@846', 846.80),
+                  ('CaII @849', 849.80), ('Fe I @851', 851.40), ('Ca II @854', 854.2)]
         if (self.ph.file == 1):
             values.append(('He I', 1083.0))
             values.append(('Fe I IR', 1564.8))

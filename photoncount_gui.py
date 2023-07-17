@@ -284,6 +284,7 @@ class photongui():
         # create Figure for the plot 
         self.fig = Figure(figsize=(WINDOW_WIDTH, WINDOW_HEIGHT), dpi=100)
         self.axes = []
+        self.xax=[]
 
         nrow = 2
         ncol = 2
@@ -386,16 +387,21 @@ class photongui():
         self.plot()
 
     def exportGraphs(self):
-        xax = self.ph.ll * M_TO_NM
+
         df = pd.DataFrame()
-        wavelengths = xax[1:-1].round(5)
-        Ilambda = self.ph.Ilambda[:-2]
+
+
+        xax = self.xax
+
         lmin = xax[0]
-        lmax = xax[len(Ilambda)]
+        lmax = xax[len(xax)-1]
         nflux = self.ph.compute_nflux(lmin, lmax)
-        dx = self.ph.dx[1:-1].round(2)
-        intTime = self.ph.t[1:-1].round(2)
-        optimalIntTime = self.ph.dt[1:-1].round(2)
+        wavelengths = xax[:len(nflux)].round(5)
+        Ilambda = self.Ilambda[:len(nflux)]
+        dx = self.dx[:len(nflux)].round(2)
+        intTime = self.t[:len(nflux)].round(2)
+        optimalIntTime = self.dt[:len(nflux)].round(2)
+
         # Creation of df with data
         df['wavelength'] = wavelengths
         df['Ilambda'] = Ilambda
@@ -461,24 +467,30 @@ class photongui():
 
 
     def plot(self):
-        xax = self.ph.ll * M_TO_NM
+        self.xax = self.ph.ll * M_TO_NM
+        self.Ilambda = self.ph.Ilambda
+        self.Ilambdac = self.ph.Ilambdac
+        self.dx = self.ph.dx
+        self.t = self.ph.t
+        self.tideal = self.ph.tideal
+        self.dt = self.ph.dt
 
         for ax in self.axes:
             ax.clear()
 
         ax = self.axes[0]
-        ax.plot(xax, self.ph.Ilambda, label='atlas')
-        ax.plot(xax, self.ph.Ilambdac, label='smeared to R')
+        ax.plot(self.xax, self.Ilambda, label='atlas')
+        ax.plot(self.xax, self.Ilambdac, label='smeared to R')
 
         ax.legend(loc='best')
         ax.get_xaxis().set_ticklabels([])
-        ax.set_xlim(self.ph.ran )
+        ax.set_xlim(self.ph.ran)
         ax.set_ylabel(r'$I_\lambda$ [W m$^{-2}$ m$^{-1}$ sr$^{-1}$]')
         ax.set_title('spectrum')
         ax.grid(True)
 
         ax = self.axes[1]
-        ax.plot(xax, self.ph.dx)
+        ax.plot(self.xax, self.dx)
         ax.set_xlim(self.ph.ran)
         ax.get_xaxis().set_ticklabels([])
         ax.set_ylabel(r'$\Delta x$ [arcsec]')
@@ -486,8 +498,8 @@ class photongui():
         ax.grid(True)
 
         ax = self.axes[2]
-        ax.plot(xax, self.ph.t, label='with given transmission')
-        ax.plot(xax, self.ph.tideal, label='perfect telescope')
+        ax.plot(self.xax, self.t, label='with given transmission')
+        ax.plot(self.xax, self.tideal, label='perfect telescope')
         ax.legend(loc='best')
         ax.set_xlabel(r'$\lambda$ (nm)')
         ax.set_xlim(self.ph.ran)
@@ -496,7 +508,7 @@ class photongui():
         ax.grid(True)
 
         ax = self.axes[3]
-        ax.plot(xax, self.ph.dt)
+        ax.plot(self.xax, self.dt)
         ax.set_xlim(self.ph.ran)
         ax.set_ylabel(r'$\Delta t$ [s]')
         ax.set_title('optimal integration time for given signal speed')

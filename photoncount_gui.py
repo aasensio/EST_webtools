@@ -407,7 +407,7 @@ class photongui():
         nameOfFile = self.openFile()
         if nameOfFile is None or nameOfFile == '':
             return
-        with open(str(nameOfFile), 'w') as nameOfFile:
+        with open(str(nameOfFile), 'w', newline="") as nameOfFile:
             writer = csv.writer(nameOfFile, delimiter=';')
         # Create the header of the csv file
             writer.writerow(['Telescope Diameter: ' + self.D_widget.get()])
